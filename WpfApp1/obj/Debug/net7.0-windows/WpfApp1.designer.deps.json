@@ -1,0 +1,28 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v7.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v7.0": {
+      "Alphabet/1.0.2": {
+        "runtime": {
+          "lib/Alphabet.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Alphabet/1.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-gji8IinMAh35rct/qk7iatLS1tu9BVg6FdQmCWKxa48PNr3Z8mLSdP+GqZkTuaX/F3mcjzMJ0LBv/mfGBvsQMg==",
+      "path": "alphabet/1.0.2",
+      "hashPath": "alphabet.1.0.2.nupkg.sha512"
+    }
+  }
+}
