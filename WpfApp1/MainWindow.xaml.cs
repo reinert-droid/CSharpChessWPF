@@ -61,6 +61,7 @@ namespace WpfApp1
             InitializeOccupied();
         }
 
+        //returns the relevent movement that the rook should do
         ArrayList RookMovement(Rook rook)
         {
             int index = AddressToIndex(rook.Position);
@@ -68,47 +69,77 @@ namespace WpfApp1
             int leftStop = AddressToIndex("a" + rook.Position[1].ToString());
             int rightStop = AddressToIndex("h" + rook.Position[1].ToString());
             int upStop = AddressToIndex(rook.Position[0].ToString() + "1");
-            int downStop = AddressToIndex(rook.Position[0].ToString() + "8") + 8; 
+            int downStop = AddressToIndex(rook.Position[0].ToString() + "8"); 
             int upperLimit = 0;
             int lowerLimit = 0;
             int rightLimit = 0;
             int leftLimit = 0;
 
-            while (occupied[index] == null && index <= downStop)
+            if (64 > (index + 8))
             {
-                index += 8;
+                while (occupied[index + 8] == null && index <= downStop)
+                {
+                    index += 8;
+                }
+                lowerLimit = index;
+                index = startingIndex;
             }
-            lowerLimit = index;
-            index = startingIndex;
+            else
+            {
+                lowerLimit = index;
+            }
+            
+            if (64 > (index + 1))
+            {
+                while (occupied[index + 1] == null && index <= rightStop)
+                {
+                    index++;
+                }
+                rightLimit = index;
+                index = startingIndex;
+            }
+            else
+            {
+                rightLimit = index;
+            }
+            
+            if (!((index - 1) < 0))
+            {
+                while (occupied[index - 1] == null && index <= leftStop)
+                {
+                    index--;
+                }
+                leftLimit = index;
+                index = startingIndex;
+            }
+            else
+            {
+                leftLimit = index;
+            }
 
-            while (occupied[index] == null && index <= rightStop)
+            if (!((index - 8) < 0))
             {
-                index++;
+                while (occupied[index - 8] == null && index <= upStop)
+                {
+                    index -= 8;
+                }
+                upperLimit = index;
             }
-            rightLimit = index;
-            index = startingIndex;
-
-            while (occupied[index] == null && index <= leftStop)
+            else
             {
-                index--;
+                upperLimit = index;
             }
-            leftLimit = index;
-            index = startingIndex;
-
-            while (occupied[index] == null && index <= upStop)
-            {
-                index -= 8;
-            }
-            upperLimit = index;
 
             return rook.Movement(upperLimit, lowerLimit, leftLimit, rightLimit);
         }
 
+        //returns the relevant movement that the pawn should do
         ArrayList PawnMovement(Pawn pawn)
         {
             return pawn.Movement;
         }
 
+        //returns the relevant movement that the knight should do
         ArrayList KnightMovement(Knight knight)
         {
             //stores the current position of the knight
@@ -144,6 +175,14 @@ namespace WpfApp1
             {
                 return knight.RowEight;
             }
+            else if (position.Contains("2"))
+            {
+                return knight.RowTwo;
+            }
+            else if (position.Contains("1"))
+            {
+                return knight.RowOne;
+            }
             else if (position.Contains("a"))
             {
                 return knight.ColumnA;
@@ -169,6 +208,7 @@ namespace WpfApp1
             Debug.WriteLine(sender.ToString());
         }
 
+        //adds the relevant information to every piece on the board
         public void InitializePieces()
         {
             //to cache the two colours that each piece can have
@@ -251,7 +291,7 @@ namespace WpfApp1
             blackRooks[1].Name = "Rook";
         }
 
-        
+        //adds the assets of the pieces to the block that they belong to
         public void InitializeChessBoard()
         {
             for (int i = 0; i < 64; i++)
@@ -266,106 +306,108 @@ namespace WpfApp1
             }
         }
 
+        //to return the image from the relevant directory
         public System.Windows.Controls.Image image(int number)
         {
+            string rootDirectory = AppDomain.CurrentDomain.BaseDirectory;
             string source = string.Empty;
             switch (number)
             {
                 case 0: 
-                    source = "C:\\Users\\Admin\\source\\repos\\WpfApp1\\WpfApp1\\Assets\\b_rook.png";
+                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\b_rook.png";
                     break;
                 case 1:
-                    source = "C:\\Users\\Admin\\source\\repos\\WpfApp1\\WpfApp1\\Assets\\b_knight.png";
+                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\b_knight.png";
                     break;
                 case 2:
-                    source = "C:\\Users\\Admin\\source\\repos\\WpfApp1\\WpfApp1\\Assets\\b_bishop.png";
+                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\b_bishop.png";
                     break;
                 case 3:
-                    source = "C:\\Users\\Admin\\source\\repos\\WpfApp1\\WpfApp1\\Assets\\b_queen.png";
+                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\b_queen.png";
                     break;
                 case 4:
-                    source = "C:\\Users\\Admin\\source\\repos\\WpfApp1\\WpfApp1\\Assets\\b_king.png";
+                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\b_king.png";
                     break;
                 case 5:
-                    source = "C:\\Users\\Admin\\source\\repos\\WpfApp1\\WpfApp1\\Assets\\b_bishop.png";
+                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\b_bishop.png";
                     break;
                 case 6:
-                    source = "C:\\Users\\Admin\\source\\repos\\WpfApp1\\WpfApp1\\Assets\\b_knight.png";
+                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\b_knight.png";
                     break;
                 case 7:
-                    source = "C:\\Users\\Admin\\source\\repos\\WpfApp1\\WpfApp1\\Assets\\b_rook.png";
+                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\b_rook.png";
                     break;
                 case 8:
-                    source = "C:\\Users\\Admin\\source\\repos\\WpfApp1\\WpfApp1\\Assets\\b_pawn.png";
+                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\b_pawn.png";
                     break;
                 case 9:
-                    source = "C:\\Users\\Admin\\source\\repos\\WpfApp1\\WpfApp1\\Assets\\b_pawn.png";
+                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\b_pawn.png";
                     break;
                 case 10:
-                    source = "C:\\Users\\Admin\\source\\repos\\WpfApp1\\WpfApp1\\Assets\\b_pawn.png";
+                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\b_pawn.png";
                     break;
                 case 11:
-                    source = "C:\\Users\\Admin\\source\\repos\\WpfApp1\\WpfApp1\\Assets\\b_pawn.png";
+                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\b_pawn.png";
                     break;
                 case 12:
-                    source = "C:\\Users\\Admin\\source\\repos\\WpfApp1\\WpfApp1\\Assets\\b_pawn.png";
+                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\b_pawn.png";
                     break;
                 case 13:
-                    source = "C:\\Users\\Admin\\source\\repos\\WpfApp1\\WpfApp1\\Assets\\b_pawn.png";
+                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\b_pawn.png";
                     break;
                 case 14:
-                    source = "C:\\Users\\Admin\\source\\repos\\WpfApp1\\WpfApp1\\Assets\\b_pawn.png";
+                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\b_pawn.png";
                     break;
                 case 15:
-                    source = "C:\\Users\\Admin\\source\\repos\\WpfApp1\\WpfApp1\\Assets\\b_pawn.png";
+                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\b_pawn.png";
                     break;
                 case 48:
-                    source = "C:\\Users\\Admin\\source\\repos\\WpfApp1\\WpfApp1\\Assets\\w_pawn.png";
+                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\w_pawn.png";
                     break;
                 case 49:
-                    source = "C:\\Users\\Admin\\source\\repos\\WpfApp1\\WpfApp1\\Assets\\w_pawn.png";
+                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\w_pawn.png";
                     break;
                 case 50:
-                    source = "C:\\Users\\Admin\\source\\repos\\WpfApp1\\WpfApp1\\Assets\\w_pawn.png";
+                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\w_pawn.png";
                     break;
                 case 51:
-                    source = "C:\\Users\\Admin\\source\\repos\\WpfApp1\\WpfApp1\\Assets\\w_pawn.png";
+                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\w_pawn.png";
                     break;
                 case 52:
-                    source = "C:\\Users\\Admin\\source\\repos\\WpfApp1\\WpfApp1\\Assets\\w_pawn.png";
+                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\w_pawn.png";
                     break;
                 case 53:
-                    source = "C:\\Users\\Admin\\source\\repos\\WpfApp1\\WpfApp1\\Assets\\w_pawn.png";
+                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\w_pawn.png";
                     break;
                 case 54:
-                    source = "C:\\Users\\Admin\\source\\repos\\WpfApp1\\WpfApp1\\Assets\\w_pawn.png";
+                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\w_pawn.png";
                     break;
                 case 55:
-                    source = "C:\\Users\\Admin\\source\\repos\\WpfApp1\\WpfApp1\\Assets\\w_pawn.png";
+                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\w_pawn.png";
                     break;
                 case 56:
-                    source = "C:\\Users\\Admin\\source\\repos\\WpfApp1\\WpfApp1\\Assets\\w_rook.png";
+                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\w_rook.png";
                     break;
                 case 57:
-                    source = "C:\\Users\\Admin\\source\\repos\\WpfApp1\\WpfApp1\\Assets\\w_knight.png";
+                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\w_knight.png";
                     break;
                 case 58:
-                    source = "C:\\Users\\Admin\\source\\repos\\WpfApp1\\WpfApp1\\Assets\\w_bishop.png";
+                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\w_bishop.png";
                     break;
                 case 59:
-                    source = "C:\\Users\\Admin\\source\\repos\\WpfApp1\\WpfApp1\\Assets\\w_queen.png";
+                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\w_queen.png";
                     break;
                 case 60:
-                    source = "C:\\Users\\Admin\\source\\repos\\WpfApp1\\WpfApp1\\Assets\\w_king.png";
+                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\w_king.png";
                     break;
                 case 61:
-                    source = "C:\\Users\\Admin\\source\\repos\\WpfApp1\\WpfApp1\\Assets\\w_bishop.png";
+                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\w_bishop.png";
                     break;
                 case 62:
-                    source = "C:\\Users\\Admin\\source\\repos\\WpfApp1\\WpfApp1\\Assets\\w_knight.png";
+                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\w_knight.png";
                     break;
                 case 63:
-                    source = "C:\\Users\\Admin\\source\\repos\\WpfApp1\\WpfApp1\\Assets\\w_rook.png";
+                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\w_rook.png";
                     break;
                 default:
                     break;
@@ -376,6 +418,7 @@ namespace WpfApp1
             return control;
         }
 
+        //to handle the double click event on a square on the board
         private void MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             bool isAttacking = false;
@@ -395,8 +438,7 @@ namespace WpfApp1
                 {
                     // values passed are, position of the attacking piece in the occupied array, the name of the attacked
                     // piece, the imageId of the attacking piece and the index of the attacking piece
-                    NewPosition(occupied[index], name, imageId, AddressToIndex(previousPieceName[0]));
-                    isAttacking = true;
+                    isAttacking = NewPosition(occupied[index], name, imageId, AddressToIndex(previousPieceName[0]));
                 }
             }
 
@@ -433,11 +475,13 @@ namespace WpfApp1
                         break;
                 }
 
+                //adds the new possible positions to the newPositions arraylist
                 foreach(string move in movement)
                 {
                     newPositions.Add(move);
                 }
 
+                //to check if the piece is attacking or not
                 if(!isAttacking)
                 {
                     foreach (string move in movement)
@@ -455,6 +499,7 @@ namespace WpfApp1
 
         }
 
+        //returns an integer that will be used to access the relevent element in the occupied array
         public int AddressToIndex(string address)
         {
             int index_1 = AlphabetService.GetIndexFromCharacter(address[0].ToString()) - 1;
@@ -463,6 +508,7 @@ namespace WpfApp1
             return index_1 + (index_2 * 8);
         }
 
+        //initializes the occupied array
         public void InitializeOccupied()
         {
             occupied[0] = blackRooks[0];
@@ -494,6 +540,7 @@ namespace WpfApp1
             occupied[63] = whiteRooks[1];
         }
 
+        //resets the chess board after a few blocks have been highlighted
         public void ResetChessBoard()
         {
             Button[] row_1 = { a1, b1, c1, d1, e1, f1, g1, h1 };
@@ -546,40 +593,72 @@ namespace WpfApp1
             }
         }
 
-        public void NewPosition(Piece piece, string newPosition, int imageNum, int index)
+        public bool NewPosition(Piece piece, string newPosition, int imageNum, int index)
         {
-            //to store the address of the piece that was clicked on
-            string address = piece.Position.ToString();
-            //to set the new position of the piece
-            piece.Position = newPosition;
+            //to check if there is a piece in the new position
+            if (occupied[AddressToIndex(newPosition)] != null)
+            {
+                //to check if the colours of the two pieces are the same
+                if (!occupied[AddressToIndex(newPosition)].Colour.Equals(occupied[index].Colour))
+                {
+                    //to store the address of the piece that was clicked on
+                    string address = piece.Position.ToString();
+                    //to set the new position of the piece
+                    piece.Position = newPosition;
 
-            //to remove the picture of the piece from the previous position
-            int column = (int)char.GetNumericValue(address[1]) - 1;
-            int row = AlphabetService.GetIndexFromCharacter(address[0].ToString()) - 1;
-            Button button = (Button)chessBoard.Children.Cast<UIElement>().First(e => Grid.GetRow(e) == column && Grid.GetColumn(e) == row);            
-            button.Content = null;
+                    //to remove the picture of the piece from the previous position
+                    int column = (int)char.GetNumericValue(address[1]) - 1;
+                    int row = AlphabetService.GetIndexFromCharacter(address[0].ToString()) - 1;
+                    Button button = (Button)chessBoard.Children.Cast<UIElement>().First(e => Grid.GetRow(e) == column && Grid.GetColumn(e) == row);
+                    button.Content = null;
 
-            //to move the picture of the piece to the new position
-            int newColumn  = (int)char.GetNumericValue(newPosition[1]) - 1;
-            int newRow = AlphabetService.GetIndexFromCharacter(newPosition[0].ToString()) - 1;
-            Button newButton = (Button)chessBoard.Children.Cast<UIElement>().First(e => Grid.GetRow(e) == newColumn && Grid.GetColumn(e) == newRow);
-            newButton.Content = image(imageNum);
+                    //to move the picture of the piece to the new position
+                    int newColumn = (int)char.GetNumericValue(newPosition[1]) - 1;
+                    int newRow = AlphabetService.GetIndexFromCharacter(newPosition[0].ToString()) - 1;
+                    Button newButton = (Button)chessBoard.Children.Cast<UIElement>().First(e => Grid.GetRow(e) == newColumn && Grid.GetColumn(e) == newRow);
+                    newButton.Content = image(imageNum);
+
+                    //replaces the piece in the position if the colours do not match
+                    occupied[AddressToIndex(newPosition)] = piece;
+
+                    occupied[index] = null;
+
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
 
             if (occupied[AddressToIndex(newPosition)] == null)
             {
+                //to store the address of the piece that was clicked on
+                string address = piece.Position.ToString();
+                
+                //to set the new position of the piece
+                piece.Position = newPosition;
+
+                //to remove the picture of the piece from the previous position
+                int column = (int)char.GetNumericValue(address[1]) - 1;
+                int row = AlphabetService.GetIndexFromCharacter(address[0].ToString()) - 1;
+                Button button = (Button)chessBoard.Children.Cast<UIElement>().First(e => Grid.GetRow(e) == column && Grid.GetColumn(e) == row);
+                button.Content = null;
+
+                //to move the picture of the piece to the new position
+                int newColumn = (int)char.GetNumericValue(newPosition[1]) - 1;
+                int newRow = AlphabetService.GetIndexFromCharacter(newPosition[0].ToString()) - 1;
+                Button newButton = (Button)chessBoard.Children.Cast<UIElement>().First(e => Grid.GetRow(e) == newColumn && Grid.GetColumn(e) == newRow);
+                newButton.Content = image(imageNum);
+
                 //to add the piece to the new position in the occupied array
                 occupied[AddressToIndex(newPosition)] = piece;
+
+                occupied[index] = null;
+
+                return false;
             }
-            else if (occupied[AddressToIndex(newPosition)] != null)
-            {
-                //to check if the colour of the two pieces are the same
-                if (!occupied[AddressToIndex(newPosition)].Colour.Equals(occupied[index].Colour))
-                {
-                    //replaces the piece in the position if the colours do not match
-                    occupied[AddressToIndex(newPosition)] = piece;
-                }
-                
-            }
+            return false;
 
         }
     }

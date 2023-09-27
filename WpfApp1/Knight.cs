@@ -114,6 +114,66 @@ namespace WpfApp1
             }
         }
 
+        public ArrayList RowTwo
+        {
+            get
+            {
+                //calculates the position to the left, then bottom of the piece
+                int leftF = AlphabetService.GetIndexFromCharacter(Position[0].ToString()) - 2;
+                string leftBottom = AlphabetService.GetCharacterFromIndex(leftF) + (char.GetNumericValue(Position[1]) + 1).ToString();
+
+                //calculates the position to the right, then top of the piece
+                int rightF = AlphabetService.GetIndexFromCharacter(Position[0].ToString()) + 2;
+                string rightTop = AlphabetService.GetCharacterFromIndex(rightF) + (char.GetNumericValue(Position[1]) - 1).ToString();
+
+                //calculates the position to the left, then top of the piece
+                int leftB = AlphabetService.GetIndexFromCharacter(Position[0].ToString()) - 2;
+                string leftTop = AlphabetService.GetCharacterFromIndex(leftB) + (char.GetNumericValue(Position[1]) - 1).ToString();
+
+                //calculates the position to the bottom, then left of the piece
+                int backL = AlphabetService.GetIndexFromCharacter(Position[0].ToString()) - 1;
+                string backLeft = AlphabetService.GetCharacterFromIndex(backL) + (char.GetNumericValue(Position[1]) + 2).ToString();
+
+                //calculates the position to the right, then bottom of the piece
+                int rightB = AlphabetService.GetIndexFromCharacter(Position[0].ToString()) + 2;
+                string rightBack = AlphabetService.GetCharacterFromIndex(rightB) + (char.GetNumericValue(Position[1]) + 1).ToString();
+
+                //calculates the position to the bottom, then right of the piece
+                int backR = AlphabetService.GetIndexFromCharacter(Position[0].ToString()) + 1;
+                string backRight = AlphabetService.GetCharacterFromIndex(backR) + (char.GetNumericValue(Position[1]) + 2).ToString();
+
+                ArrayList movements = new ArrayList { leftBottom, rightTop, leftTop, backLeft, rightBack, backRight };
+
+                return movements;
+            }
+        }
+
+        public ArrayList RowOne
+        {
+            get
+            {
+                //calculates the position to the left, then bottom of the piece
+                int leftB = AlphabetService.GetIndexFromCharacter(Position[0].ToString()) - 2;
+                string leftBack = AlphabetService.GetCharacterFromIndex(leftB) + (char.GetNumericValue(Position[1]) + 1).ToString();
+
+                //calculates the position to the bottom, then left of the piece
+                int backL = AlphabetService.GetIndexFromCharacter(Position[0].ToString()) - 1;
+                string backLeft = AlphabetService.GetCharacterFromIndex(backL) + (char.GetNumericValue(Position[1]) + 2).ToString();
+
+                //calculates the position to the right, then bottom of the piece
+                int rightB = AlphabetService.GetIndexFromCharacter(Position[0].ToString()) + 2;
+                string rightBack = AlphabetService.GetCharacterFromIndex(rightB) + (char.GetNumericValue(Position[1]) + 1).ToString();
+
+                //calculates the position to the bottom, then right of the piece
+                int backR = AlphabetService.GetIndexFromCharacter(Position[0].ToString()) + 1;
+                string backRight = AlphabetService.GetCharacterFromIndex(backR) + (char.GetNumericValue(Position[1]) + 2).ToString();
+
+                ArrayList movements = new ArrayList { leftBack, backLeft, rightBack, backRight };
+
+                return movements;
+            }
+        }
+
         public ArrayList ColumnB
         {
             get
