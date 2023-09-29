@@ -64,73 +64,126 @@ namespace WpfApp1
         //returns the relevent movement that the rook should do
         ArrayList RookMovement(Rook rook)
         {
+            //to get the index of the position of the rook in the occupied array
             int index = AddressToIndex(rook.Position);
-            int startingIndex = index;
+            //to get the most left position on the board
             int leftStop = AddressToIndex("a" + rook.Position[1].ToString());
+            //to get the most right position on the board
             int rightStop = AddressToIndex("h" + rook.Position[1].ToString());
+            //to get the most upper position on the board
             int upStop = AddressToIndex(rook.Position[0].ToString() + "1");
+            //to get the lowest position on the board
             int downStop = AddressToIndex(rook.Position[0].ToString() + "8"); 
-            int upperLimit = 0;
-            int lowerLimit = 0;
-            int rightLimit = 0;
-            int leftLimit = 0;
+            int upperLimit = index;
+            int lowerLimit = index;
+            int rightLimit = index;
+            int leftLimit = index;
 
+            //to check if the rook is already in the lowest row
             if (64 > (index + 8))
             {
-                while (occupied[index + 8] == null && index <= downStop)
+                //to check if the rook is not in the lowest row or directly above another piece
+                while (lowerLimit < downStop && occupied[lowerLimit + 8] == null)
                 {
-                    index += 8;
+                    lowerLimit += 8;
                 }
-                lowerLimit = index;
-                index = startingIndex;
-            }
-            else
-            {
-                lowerLimit = index;
+                //to add the lowest position if the rook can reach it
+                if((lowerLimit < downStop) ==  false)
+                {
+                    lowerLimit += 8;
+                }
+                //to check if the rook is directly above another piece
+                else if (occupied[lowerLimit + 8] != null)
+                {
+                    lowerLimit += 8;
+
+                    //to check if the piece below the rook is the same colour or not
+                    if (!occupied[lowerLimit].Colour.Equals(rook.Colour))
+                    {
+                        upperLimit += 8;
+                    }
+                }
             }
             
+            //to check if the rook is in the bottom right corner
             if (64 > (index + 1))
             {
-                while (occupied[index + 1] == null && index <= rightStop)
+                //to check if the piece is left of another piece or in the bottom right corner
+                while (index < rightStop && occupied[rightLimit + 1] == null)
                 {
-                    index++;
+                    rightLimit++;
                 }
-                rightLimit = index;
-                index = startingIndex;
+                //to check if the piece is in the bottom right corner
+                if ((index < rightStop) == false)
+                {
+                    rightLimit++;
+                }
+                //to check if the rook is left if another piece
+                else if (occupied[rightLimit + 1] != null)
+                {
+                    rightLimit++;
+
+                    //to check if the colour of piece that is right of the rook mathces the colour of the rook
+                    if (!occupied[lowerLimit].Colour.Equals(rook.Colour))
+                    {
+                        rightLimit++;
+                    }
+                }
             }
-            else
-            {
-                rightLimit = index;
-            }
-            
+
+            //to check if the piece is in the top left corner
             if (!((index - 1) < 0))
             {
-                while (occupied[index - 1] == null && index <= leftStop)
+                //to check if the piece is in the top left corner or to the right of another piece
+                while (index > leftStop && occupied[leftLimit - 1] == null)
                 {
-                    index--;
+                    leftLimit--;
                 }
-                leftLimit = index;
-                index = startingIndex;
-            }
-            else
-            {
-                leftLimit = index;
+                //to check if the piece is in the top left corner
+                if((index > leftStop) == false)
+                {
+                    leftLimit--;
+                }
+                //to check if the rook is to the right of another piece
+                else if (occupied[leftLimit - 1] != null)
+                {
+                    leftLimit--;
+
+                    //to check if the colour of the piece that is to the left of the rook matches the rook
+                    if (!occupied[leftLimit].Colour.Equals(rook.Colour))
+                    {
+                        leftLimit--;
+                    }
+                }
             }
 
+            //to check if the piece is in the top row
             if (!((index - 8) < 0))
             {
-                while (occupied[index - 8] == null && index <= upStop)
+                //to check if the piece is in the top row or below another piece
+                while (upperLimit > upStop && occupied[upperLimit - 8] == null)
                 {
-                    index -= 8;
+                    upperLimit -= 8;
                 }
-                upperLimit = index;
-            }
-            else
-            {
-                upperLimit = index;
+                //to check if the piece is in the top row
+                if((upperLimit > upStop) == false)
+                {
+                    upperLimit -= 8;
+                }
+                //to check if the rook is below another piece
+                else if (occupied[upperLimit - 8] != null) 
+                {
+                    upperLimit -= 8;
+
+                    //to check if the colour of the piece that's above the rook matches or not
+                    if (occupied[upperLimit].Colour.Equals(rook.Colour))
+                    {
+                        upperLimit -= 8;
+                    }
+                }
             }
 
-            return rook.Movement(upperLimit, lowerLimit, leftLimit, rightLimit);
+            return rook.Movement(upperLimit, lowerLimit, leftLimit, rightLimit, index);
         }
 
         //returns the relevant movement that the pawn should do
