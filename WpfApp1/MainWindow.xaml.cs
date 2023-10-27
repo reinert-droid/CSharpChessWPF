@@ -1,6 +1,7 @@
 ﻿using Alphabet;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Eventing.Reader;
 using System.Linq;
@@ -42,6 +43,8 @@ namespace WpfApp1
 
         static string[] previousPieceName = new string[1];
 
+        static string[] playerTurn = { "white"};
+
         public MainWindow()
         {
             InitializeComponent();
@@ -61,6 +64,102 @@ namespace WpfApp1
             InitializeOccupied();
         }
 
+        //returns the relevant movement that the bishop should do
+        ArrayList BishopMovement(Bishop bishop)
+        {
+            //to get the index of the position of the bishop in the occupied array
+            int index = AddressToIndex(bishop.Position);
+
+            //to set the initial positions of each possible movement
+            int upperRight = index;
+            int bottomRight = index;
+            int bottomLeft = index;
+            int upperLeft = index;
+
+            //to check if the bishop can move down and right
+            if (64 > (index + 9))
+            {
+                //to check if the address is correct for the bishop, the modulo operator at the end is to prevent the code
+                    //iterating to the far left side
+                while ((bottomRight + 9) < 64 && occupied[bottomRight + 9] == null && (bottomRight + 9) % 8 != 0)
+                {
+                    bottomRight += 9;
+                }
+
+                //to check if the bishop is diagonally left up from another piece
+                if (bottomRight + 9 < 64 && occupied[bottomRight + 9] != null && (bottomRight + 9) % 8 != 0)
+                {
+                    //to check if the piece right down to the bishop is the same colour or not
+                    if (!occupied[bottomRight + 9].Colour.Equals(bishop.Colour))
+                    {
+                        bottomRight += 9;
+                    }
+                }
+            }
+
+            //to check if the bishop can move down and left
+            if (64 > (index + 7))
+            {
+                //to check if the piece is left of another piece or in the bottom right corner
+                while ((bottomLeft + 7) < 64 && occupied[bottomLeft + 7] == null && isBottomLeftNotFarRight(bottomLeft))
+                {
+                    bottomLeft += 7;
+                }
+
+                //to check if the bishop is up and right from another piece
+                if (bottomLeft + 7 < 64 && occupied[bottomLeft + 7] != null && isBottomLeftNotFarRight(bottomLeft))
+                {
+                    //to check if the colour of piece that is down and left of the bishop mathces the colour of the bishop
+                    if (!occupied[bottomLeft + 7].Colour.Equals(bishop.Colour))
+                    {
+                        bottomLeft += 7;
+                    }
+                }
+            }
+
+            //to check if the bishop can move up and left
+            if (!((index - 9) < 0))
+            {
+                //to check if the bishop is correct for this movement, the isUpperLeftNotFarRight method makes sure that the
+                    //bishop does not overlap to the far right of the board
+                while ((upperLeft - 9) >= 0 && occupied[upperLeft - 9] == null && isUpperLeftNotFarRight(upperLeft))
+                {
+                    upperLeft -= 9;
+                }
+
+                //to check if the bishop is down and right to another piece
+                if ((upperLeft - 9) >= 0 && occupied[upperLeft - 9] != null && isUpperLeftNotFarRight(upperLeft))
+                {
+                    //to check if the colour of the piece that is up and left of the bishop matches the bishop
+                    if (!occupied[upperLeft - 9].Colour.Equals(bishop.Colour))
+                    {
+                        upperLeft -= 9;
+                    }
+                }
+            }
+
+            //to check if the piece is in the top row
+            if (!((index - 7) <= 0))
+            {
+                //to check if the piece is in the top row or below another piece
+                while (upperRight - 7 >= 0 && occupied[upperRight - 7] == null && (upperRight - 7) % 8 != 0)
+                {
+                    upperRight -= 7;
+                }
+
+                //to check if the bishop is below another piece
+                if (upperRight - 7 >= 0 && occupied[upperRight - 7] != null && (upperRight - 7) % 8 != 0)
+                {
+                    //to check if the colour of the piece that's above the bishop matches or not
+                    if (!occupied[upperRight - 7].Colour.Equals(bishop.Colour))
+                    {
+                        upperRight -= 7;
+                    }
+                }
+            }
+            return bishop.Movement(bottomRight, bottomLeft, upperLeft, upperRight, index);
+        }
+
         //returns the relevent movement that the rook should do
         ArrayList RookMovement(Rook rook)
         {
@@ -73,7 +172,7 @@ namespace WpfApp1
             //to get the most upper position on the board
             int upStop = AddressToIndex(rook.Position[0].ToString() + "1");
             //to get the lowest position on the board
-            int downStop = AddressToIndex(rook.Position[0].ToString() + "8"); 
+            int downStop = AddressToIndex(rook.Position[0].ToString() + "8");
             int upperLimit = index;
             int lowerLimit = index;
             int rightLimit = index;
@@ -87,20 +186,14 @@ namespace WpfApp1
                 {
                     lowerLimit += 8;
                 }
-                //to add the lowest position if the rook can reach it
-                if((lowerLimit < downStop) ==  false)
-                {
-                    lowerLimit += 8;
-                }
-                //to check if the rook is directly above another piece
-                else if (occupied[lowerLimit + 8] != null)
-                {
-                    lowerLimit += 8;
 
+                //to check if the rook is directly above another piece
+                if (lowerLimit < downStop && occupied[lowerLimit + 8] != null)
+                {
                     //to check if the piece below the rook is the same colour or not
-                    if (!occupied[lowerLimit].Colour.Equals(rook.Colour))
+                    if (!occupied[lowerLimit + 8].Colour.Equals(rook.Colour))
                     {
-                        upperLimit += 8;
+                        lowerLimit += 8;
                     }
                 }
             }
@@ -109,22 +202,16 @@ namespace WpfApp1
             if (64 > (index + 1))
             {
                 //to check if the piece is left of another piece or in the bottom right corner
-                while (index < rightStop && occupied[rightLimit + 1] == null)
+                while (rightLimit < rightStop && occupied[rightLimit + 1] == null)
                 {
                     rightLimit++;
                 }
-                //to check if the piece is in the bottom right corner
-                if ((index < rightStop) == false)
+                
+                //to check if the rook is left of another piece
+                if (rightLimit < rightStop && occupied[rightLimit + 1] != null)
                 {
-                    rightLimit++;
-                }
-                //to check if the rook is left if another piece
-                else if (occupied[rightLimit + 1] != null)
-                {
-                    rightLimit++;
-
                     //to check if the colour of piece that is right of the rook mathces the colour of the rook
-                    if (!occupied[lowerLimit].Colour.Equals(rook.Colour))
+                    if (!occupied[rightLimit + 1].Colour.Equals(rook.Colour))
                     {
                         rightLimit++;
                     }
@@ -135,22 +222,16 @@ namespace WpfApp1
             if (!((index - 1) < 0))
             {
                 //to check if the piece is in the top left corner or to the right of another piece
-                while (index > leftStop && occupied[leftLimit - 1] == null)
+                while (leftLimit > leftStop && occupied[leftLimit - 1] == null)
                 {
                     leftLimit--;
                 }
-                //to check if the piece is in the top left corner
-                if((index > leftStop) == false)
-                {
-                    leftLimit--;
-                }
-                //to check if the rook is to the right of another piece
-                else if (occupied[leftLimit - 1] != null)
-                {
-                    leftLimit--;
 
+                //to check if the rook is to the right of another piece
+                if (leftLimit > leftStop && occupied[leftLimit - 1] != null)
+                {
                     //to check if the colour of the piece that is to the left of the rook matches the rook
-                    if (!occupied[leftLimit].Colour.Equals(rook.Colour))
+                    if (!occupied[leftLimit - 1].Colour.Equals(rook.Colour))
                     {
                         leftLimit--;
                     }
@@ -165,25 +246,389 @@ namespace WpfApp1
                 {
                     upperLimit -= 8;
                 }
-                //to check if the piece is in the top row
-                if((upperLimit > upStop) == false)
+
+                //to check if the rook is below another piece
+                if (upperLimit > upStop && occupied[upperLimit - 8] != null)
+                {
+                    //to check if the colour of the piece that's above the rook matches or not
+                    if (!occupied[upperLimit - 8].Colour.Equals(rook.Colour))
+                    {
+                        upperLimit -= 8;
+                    }
+                }
+            }
+            return rook.Movement(upperLimit, lowerLimit, leftLimit, rightLimit, index);
+        }
+
+        //returns the relevant movement that the king should do
+        ArrayList KingMovement(King king)
+        {
+            //to get the index of the position of the rook in the occupied array
+            int index = AddressToIndex(king.Position);
+            //to get the most left position on the board
+            int leftStop = AddressToIndex("a" + king.Position[1].ToString());
+            //to get the most right position on the board
+            int rightStop = AddressToIndex("h" + king.Position[1].ToString());
+            //to get the most upper position on the board
+            int upStop = AddressToIndex(king.Position[0].ToString() + "1");
+            //to get the lowest position on the board
+            int downStop = AddressToIndex(king.Position[0].ToString() + "8");
+            //to set the initial positions of each possible movement
+            int upperRight = index;
+            int bottomRight = index;
+            int bottomLeft = index;
+            int upperLeft = index;
+            int upperLimit = index;
+            int lowerLimit = index;
+            int rightLimit = index;
+            int leftLimit = index;
+
+            //to check if the rook is already in the lowest row
+            if (64 > (index + 8))
+            {
+                //to check if the rook is not in the lowest row or directly above another piece
+                if (lowerLimit < downStop && occupied[lowerLimit + 8] == null)
+                {
+                    lowerLimit += 8;
+                }
+                //to check if the rook is directly above another piece
+                else if (lowerLimit < downStop && occupied[lowerLimit + 8] != null)
+                {
+                    //to check if the piece below the rook is the same colour or not
+                    if (!occupied[lowerLimit + 8].Colour.Equals(king.Colour))
+                    {
+                        lowerLimit += 8;
+                    }
+                }
+            }
+
+            //to check if the rook is in the bottom right corner
+            if (64 > (index + 1))
+            {
+                //to check if the piece is left of another piece or in the bottom right corner
+                if (rightLimit < rightStop && occupied[rightLimit + 1] == null)
+                {
+                    rightLimit++;
+                }
+                //to check if the rook is left of another piece
+                else if (rightLimit < rightStop && occupied[rightLimit + 1] != null)
+                {
+                    //to check if the colour of piece that is right of the rook mathces the colour of the rook
+                    if (!occupied[rightLimit + 1].Colour.Equals(king.Colour))
+                    {
+                        rightLimit++;
+                    }
+                }
+            }
+
+            //to check if the piece is in the top left corner
+            if (!((index - 1) < 0))
+            {
+                //to check if the piece is in the top left corner or to the right of another piece
+                if (leftLimit > leftStop && occupied[leftLimit - 1] == null)
+                {
+                    leftLimit--;
+                }
+                //to check if the rook is to the right of another piece
+                else if (leftLimit > leftStop && occupied[leftLimit - 1] != null)
+                {
+                    //to check if the colour of the piece that is to the left of the rook matches the rook
+                    if (!occupied[leftLimit - 1].Colour.Equals(king.Colour))
+                    {
+                        leftLimit--;
+                    }
+                }
+            }
+
+            //to check if the piece is in the top row
+            if (!((index - 8) < 0))
+            {
+                //to check if the piece is in the top row or below another piece
+                if (upperLimit > upStop && occupied[upperLimit - 8] == null)
                 {
                     upperLimit -= 8;
                 }
                 //to check if the rook is below another piece
-                else if (occupied[upperLimit - 8] != null) 
+                else if (upperLimit > upStop && occupied[upperLimit - 8] != null)
                 {
-                    upperLimit -= 8;
-
                     //to check if the colour of the piece that's above the rook matches or not
-                    if (occupied[upperLimit].Colour.Equals(rook.Colour))
+                    if (!occupied[upperLimit - 8].Colour.Equals(king.Colour))
                     {
                         upperLimit -= 8;
                     }
                 }
             }
 
-            return rook.Movement(upperLimit, lowerLimit, leftLimit, rightLimit, index);
+            
+
+            //to check if the bishop can move down and right
+            if (64 > (index + 9))
+            {
+                //to check if the address is correct for the bishop, the modulo operator at the end is to prevent the code
+                //iterating to the far left side
+                if ((bottomRight + 9) < 64 && occupied[bottomRight + 9] == null && (bottomRight + 9) % 8 != 0)
+                {
+                    bottomRight += 9;
+                }
+                //to check if the bishop is diagonally left up from another piece
+                else if (bottomRight + 9 < 64 && occupied[bottomRight + 9] != null && (bottomRight + 9) % 8 != 0)
+                {
+                    //to check if the piece right down to the bishop is the same colour or not
+                    if (!occupied[bottomRight + 9].Colour.Equals(king.Colour))
+                    {
+                        bottomRight += 9;
+                    }
+                }
+            }
+
+            //to check if the bishop can move down and left
+            if (64 > (index + 7))
+            {
+                //to check if the piece is left of another piece or in the bottom right corner
+                if ((bottomLeft + 7) < 64 && occupied[bottomLeft + 7] == null && isBottomLeftNotFarRight(bottomLeft))
+                {
+                    bottomLeft += 7;
+                }
+                //to check if the bishop is up and right from another piece
+                else if (bottomLeft + 7 < 64 && occupied[bottomLeft + 7] != null && isBottomLeftNotFarRight(bottomLeft))
+                {
+                    //to check if the colour of piece that is down and left of the bishop mathces the colour of the bishop
+                    if (!occupied[bottomLeft + 7].Colour.Equals(king.Colour))
+                    {
+                        bottomLeft += 7;
+                    }
+                }
+            }
+
+            //to check if the bishop can move up and left
+            if (!((index - 9) < 0))
+            {
+                //to check if the bishop is correct for this movement, the isUpperLeftNotFarRight method makes sure that the
+                //bishop does not overlap to the far right of the board
+                if ((upperLeft - 9) >= 0 && occupied[upperLeft - 9] == null && isUpperLeftNotFarRight(upperLeft))
+                {
+                    upperLeft -= 9;
+                }
+                //to check if the bishop is down and right to another piece
+                else if ((upperLeft - 9) >= 0 && occupied[upperLeft - 9] != null && isUpperLeftNotFarRight(upperLeft))
+                {
+                    //to check if the colour of the piece that is up and left of the bishop matches the bishop
+                    if (!occupied[upperLeft - 9].Colour.Equals(king.Colour))
+                    {
+                        upperLeft -= 9;
+                    }
+                }
+            }
+
+            //to check if the piece is in the top row
+            if (!((index - 7) <= 0))
+            {
+                //to check if the piece is in the top row or below another piece
+                if (upperRight - 7 >= 0 && occupied[upperRight - 7] == null && (upperRight - 7) % 8 != 0)
+                {
+                    upperRight -= 7;
+                }
+                //to check if the bishop is below another piece
+                else if (upperRight - 7 >= 0 && occupied[upperRight - 7] != null && (upperRight - 7) % 8 != 0)
+                {
+                    //to check if the colour of the piece that's above the bishop matches or not
+                    if (!occupied[upperRight - 7].Colour.Equals(king.Colour))
+                    {
+                        upperRight -= 7;
+                    }
+                }
+            }
+
+            return king.Movement(bottomRight, bottomLeft, upperLeft, upperRight, upperLimit, lowerLimit, leftLimit, rightLimit, index);
+        }
+
+        //returns the relevant movement that the queen should do
+        ArrayList QueenMovement(Queen queen)
+        {
+            //to get the index of the position of the rook in the occupied array
+            int index = AddressToIndex(queen.Position);
+            //to get the most left position on the board
+            int leftStop = AddressToIndex("a" + queen.Position[1].ToString());
+            //to get the most right position on the board
+            int rightStop = AddressToIndex("h" + queen.Position[1].ToString());
+            //to get the most upper position on the board
+            int upStop = AddressToIndex(queen.Position[0].ToString() + "1");
+            //to get the lowest position on the board
+            int downStop = AddressToIndex(queen.Position[0].ToString() + "8");
+            int upperLimit = index;
+            int lowerLimit = index;
+            int rightLimit = index;
+            int leftLimit = index;
+
+            //to check if the rook is already in the lowest row
+            if (64 > (index + 8))
+            {
+                //to check if the rook is not in the lowest row or directly above another piece
+                while (lowerLimit < downStop && occupied[lowerLimit + 8] == null)
+                {
+                    lowerLimit += 8;
+                }
+
+                //to check if the rook is directly above another piece
+                if (lowerLimit < downStop && occupied[lowerLimit + 8] != null)
+                {
+                    //to check if the piece below the rook is the same colour or not
+                    if (!occupied[lowerLimit + 8].Colour.Equals(queen.Colour))
+                    {
+                        lowerLimit += 8;
+                    }
+                }
+            }
+
+            //to check if the rook is in the bottom right corner
+            if (64 > (index + 1))
+            {
+                //to check if the piece is left of another piece or in the bottom right corner
+                while (rightLimit < rightStop && occupied[rightLimit + 1] == null)
+                {
+                    rightLimit++;
+                }
+
+                //to check if the rook is left of another piece
+                if (rightLimit < rightStop && occupied[rightLimit + 1] != null)
+                {
+                    //to check if the colour of piece that is right of the rook mathces the colour of the rook
+                    if (!occupied[rightLimit + 1].Colour.Equals(queen.Colour))
+                    {
+                        rightLimit++;
+                    }
+                }
+            }
+
+            //to check if the piece is in the top left corner
+            if (!((index - 1) < 0))
+            {
+                //to check if the piece is in the top left corner or to the right of another piece
+                while (leftLimit > leftStop && occupied[leftLimit - 1] == null)
+                {
+                    leftLimit--;
+                }
+
+                //to check if the rook is to the right of another piece
+                if (leftLimit > leftStop && occupied[leftLimit - 1] != null)
+                {
+                    //to check if the colour of the piece that is to the left of the rook matches the rook
+                    if (!occupied[leftLimit - 1].Colour.Equals(queen.Colour))
+                    {
+                        leftLimit--;
+                    }
+                }
+            }
+
+            //to check if the piece is in the top row
+            if (!((index - 8) < 0))
+            {
+                //to check if the piece is in the top row or below another piece
+                while (upperLimit > upStop && occupied[upperLimit - 8] == null)
+                {
+                    upperLimit -= 8;
+                }
+
+                //to check if the rook is below another piece
+                if (upperLimit > upStop && occupied[upperLimit - 8] != null)
+                {
+                    //to check if the colour of the piece that's above the rook matches or not
+                    if (!occupied[upperLimit - 8].Colour.Equals(queen.Colour))
+                    {
+                        upperLimit -= 8;
+                    }
+                }
+            }
+
+            //to set the initial positions of each possible movement
+            int upperRight = index;
+            int bottomRight = index;
+            int bottomLeft = index;
+            int upperLeft = index;
+
+            //to check if the bishop can move down and right
+            if (64 > (index + 9))
+            {
+                //to check if the address is correct for the bishop, the modulo operator at the end is to prevent the code
+                //iterating to the far left side
+                while ((bottomRight + 9) < 64 && occupied[bottomRight + 9] == null && (bottomRight + 9) % 8 != 0)
+                {
+                    bottomRight += 9;
+                }
+
+                //to check if the bishop is diagonally left up from another piece
+                if (bottomRight + 9 < 64 && occupied[bottomRight + 9] != null && (bottomRight + 9) % 8 != 0)
+                {
+                    //to check if the piece right down to the bishop is the same colour or not
+                    if (!occupied[bottomRight + 9].Colour.Equals(queen.Colour))
+                    {
+                        bottomRight += 9;
+                    }
+                }
+            }
+
+            //to check if the bishop can move down and left
+            if (64 > (index + 7))
+            {
+                //to check if the piece is left of another piece or in the bottom right corner
+                while ((bottomLeft + 7) < 64 && occupied[bottomLeft + 7] == null && isBottomLeftNotFarRight(bottomLeft))
+                {
+                    bottomLeft += 7;
+                }
+
+                //to check if the bishop is up and right from another piece
+                if (bottomLeft + 7 < 64 && occupied[bottomLeft + 7] != null && isBottomLeftNotFarRight(bottomLeft))
+                {
+                    //to check if the colour of piece that is down and left of the bishop mathces the colour of the bishop
+                    if (!occupied[bottomLeft + 7].Colour.Equals(queen.Colour))
+                    {
+                        bottomLeft += 7;
+                    }
+                }
+            }
+
+            //to check if the bishop can move up and left
+            if (!((index - 9) < 0))
+            {
+                //to check if the bishop is correct for this movement, the isUpperLeftNotFarRight method makes sure that the
+                //bishop does not overlap to the far right of the board
+                while ((upperLeft - 9) >= 0 && occupied[upperLeft - 9] == null && isUpperLeftNotFarRight(upperLeft))
+                {
+                    upperLeft -= 9;
+                }
+
+                //to check if the bishop is down and right to another piece
+                if ((upperLeft - 9) >= 0 && occupied[upperLeft - 9] != null && isUpperLeftNotFarRight(upperLeft))
+                {
+                    //to check if the colour of the piece that is up and left of the bishop matches the bishop
+                    if (!occupied[upperLeft - 9].Colour.Equals(queen.Colour))
+                    {
+                        upperLeft -= 9;
+                    }
+                }
+            }
+
+            //to check if the piece is in the top row
+            if (!((index - 7) <= 0))
+            {
+                //to check if the piece is in the top row or below another piece
+                while (upperRight - 7 >= 0 && occupied[upperRight - 7] == null && (upperRight - 7) % 8 != 0)
+                {
+                    upperRight -= 7;
+                }
+
+                //to check if the bishop is below another piece
+                if (upperRight - 7 >= 0 && occupied[upperRight - 7] != null && (upperRight - 7) % 8 != 0)
+                {
+                    //to check if the colour of the piece that's above the bishop matches or not
+                    if (!occupied[upperRight - 7].Colour.Equals(queen.Colour))
+                    {
+                        upperRight -= 7;
+                    }
+                }
+            }
+
+            return queen.Movement(bottomRight, bottomLeft, upperLeft, upperRight, upperLimit, lowerLimit, leftLimit, rightLimit, index);
         }
 
         //returns the relevant movement that the pawn should do
@@ -254,11 +699,6 @@ namespace WpfApp1
             }
 
             return knight.AllMovement;
-        }
-
-        public void DisplayAddress(object sender, RoutedEventArgs e)
-        {
-            Debug.WriteLine(sender.ToString());
         }
 
         //adds the relevant information to every piece on the board
@@ -492,11 +932,34 @@ namespace WpfApp1
                     // values passed are, position of the attacking piece in the occupied array, the name of the attacked
                     // piece, the imageId of the attacking piece and the index of the attacking piece
                     isAttacking = NewPosition(occupied[index], name, imageId, AddressToIndex(previousPieceName[0]));
+                    break;
                 }
             }
 
             //to get the index of where the piece is stored
             index = AddressToIndex(name);
+
+            if (occupied[index] != null)
+            {
+                if (!occupied[index].Colour.Equals(playerTurn[0]))
+                {
+                    return;
+                }
+                else
+                {
+                    foreach (string position in newPositions)
+                    {
+                        if (!position.Equals(name))
+                        {
+                            if (!occupied[index].Colour.Equals(playerTurn[0]))
+                            {
+                                newPositions.Clear();
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
 
             newPositions.Clear();
 
@@ -521,9 +984,60 @@ namespace WpfApp1
                         }
                         break;
                     case "Pawn":
-                        movement = PawnMovement((Pawn)occupied[index]); break;
+                        movement = PawnMovement((Pawn)occupied[index]);
+                        if (occupied[index].Colour.Equals("black"))
+                        {
+                            imageId = 9;
+                        }
+                        else if (occupied[index].Colour.Equals("white"))
+                        {
+                            imageId = 54;
+                        }
+                        break;
                     case "Rook": 
-                        movement = RookMovement((Rook)occupied[index]); break;
+                        movement = RookMovement((Rook)occupied[index]);
+                        if (occupied[index].Colour.Equals("black"))
+                        {
+                            imageId = 0;
+                        }
+                        else if (occupied[index].Colour.Equals("white"))
+                        {
+                            imageId = 56;
+                        }
+                        break;
+                    case "Bishop":
+                        movement = BishopMovement((Bishop)occupied[index]);
+                        if (occupied[index].Colour.Equals("black"))
+                        {
+                            imageId = 2;
+                        }
+                        else if (occupied[index].Colour.Equals("white"))
+                        {
+                            imageId = 58;
+                        }
+                        break;
+                    case "Queen":
+                        movement = QueenMovement((Queen)occupied[index]);
+                        if (occupied[index].Colour.Equals("black"))
+                        {
+                            imageId = 3;
+                        }
+                        else if (occupied[index].Colour.Equals("white"))
+                        {
+                            imageId = 59;
+                        }
+                        break;
+                    case "King":
+                        movement = KingMovement((King)occupied[index]);
+                        if (occupied[index].Colour.Equals("black"))
+                        {
+                            imageId = 4;
+                        }
+                        else if (occupied[index].Colour.Equals("white"))
+                        {
+                            imageId = 60;
+                        }
+                        break;
                     default:
                         break;
                 }
@@ -542,11 +1056,11 @@ namespace WpfApp1
                         //to highlight all the possible spaces that the piece can move to on the board
                         int column = (int)char.GetNumericValue(move[1]) - 1;
                         int row = AlphabetService.GetIndexFromCharacter(move[0].ToString()) - 1;
+                        string test = move;
                         Button button = (Button)chessBoard.Children.Cast<UIElement>().First(e => Grid.GetRow(e) == column && Grid.GetColumn(e) == row);
                         button.Background = new SolidColorBrush(Colors.Red);
                     }
                 }
-
                 previousPieceName[0] = name;
             }
 
@@ -713,6 +1227,18 @@ namespace WpfApp1
             }
             return false;
 
+        }
+
+        public bool isBottomLeftNotFarRight(int index)
+        {
+            return (index + 7) == 7 ? false: (index + 7) == 15? false: (index + 7) == 23? false: (index + 7) == 31? false:
+                (index + 7) == 39? false: (index + 7) == 47? false: (index + 7) == 55? false: (index + 7) == 63? false: true;
+        }
+
+        public bool isUpperLeftNotFarRight(int index)
+        {
+            return (index - 9) == 7 ? false : (index - 9) == 15 ? false : (index - 9) == 23 ? false : (index - 9) == 31 ? false :
+                (index - 9) == 39 ? false : (index - 9) == 47 ? false : (index - 9) == 55 ? false : true;
         }
     }
 }

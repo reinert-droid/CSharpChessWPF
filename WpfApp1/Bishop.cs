@@ -11,63 +11,54 @@ namespace WpfApp1
 {
     internal class Bishop : Piece
     {
-        ArrayList Movement()
+        public ArrayList Movement(int bottomRight, int bottomLeft, int upperLeft, int upperRight, int index)
         {
             //to store all the possible addresses that the bishop can move to
             ArrayList movement = new ArrayList();
-            //to get the character from the current position of the bishop
-            char character = Position[0];
-            //to get alphabetical index of the character in the current position of the bishop
-            int characterIndex = AlphabetService.GetIndexFromCharacter(character.ToString());
-            int number = (int)char.GetNumericValue(Position[1]);
 
-            int j = characterIndex;
-
-            //to return all the available positions to the left up diagonal of the rook
-            for (int i = number; i >= 1; i--)
+            //to return all the available positions to the left up diagonal of the bishop
+            for (int i = index; i >= upperLeft; i -= 9)
             {
-                string leftUp = AlphabetService.GetCharacterFromIndex(j).ToString() + i.ToString();
-                j--;
+                string leftUp = AlphabetService.GetCharacterFromIndex((i % 8) + 1).ToString() + ((i / 8) + 1).ToString();
                 movement.Add(leftUp);
             }
 
-            j = characterIndex;
-
             //to return all the available positions to the right up diagonal of the rook
-            for (int i = number; i >= 1; i--)
+            for (int i = index; i >= upperRight; i -= 7)
             {
-                string rightUp = AlphabetService.GetCharacterFromIndex(j).ToString() + i.ToString();
-                j++;
+                string rightUp = AlphabetService.GetCharacterFromIndex((i % 8) + 1).ToString() + ((i / 8) + 1).ToString();
                 movement.Add(rightUp);
             }
 
-            j = characterIndex;
-
             //to return all the available positions to the right down diagonal of the rook
-            for (int i = number; i <= 8; i++)
+            for (int i = index; i <= bottomRight; i+=9)
             {
-                string rightDown = AlphabetService.GetCharacterFromIndex(j).ToString() + i.ToString();
-                j++;
+                string rightDown = AlphabetService.GetCharacterFromIndex((i % 8) + 1).ToString() + ((i / 8) + 1).ToString();
                 movement.Add(rightDown);
             }
 
-            j = characterIndex;
-
             //to return all the available positions to the left down diagonal of the rook
-            for (int i = number; i <= 8; i++)
+            for (int i = index; i <= bottomLeft; i+=7)
             {
-                string leftDown = AlphabetService.GetCharacterFromIndex(j).ToString() + i.ToString();
-                j--;
+                string leftDown = AlphabetService.GetCharacterFromIndex((i % 8) + 1).ToString() + ((i / 8) + 1).ToString();
                 movement.Add(leftDown);
             }
 
-            return movement;
-        }
+            //to store a list of movements with the position of the clicked on piece removed
+            ArrayList finalMovements = new ArrayList();
+            foreach (string move in movement)
+            {
+                if (move.Equals(Position))
+                {
+                    continue;
+                }
+                else
+                {
+                    finalMovements.Add(move);
+                }
+            }
 
-        void attack(string colour, string position)
-        {
-            colour = Colour;
-            position = Position;
+            return finalMovements;
         }
     }
 }

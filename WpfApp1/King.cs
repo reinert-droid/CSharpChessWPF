@@ -1,5 +1,6 @@
 ﻿using Alphabet;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,244 +10,110 @@ namespace WpfApp1
 {
     internal class King : Piece
     {
-        public string[] AllMovement
+        public ArrayList Movement(int bottomRight, int bottomLeft, int upperLeft, int upperRight, int upperLimit, int lowerLimit, int leftLimit, int rightLimit, int index)
         {
-            get
+            //to store all the possible addresses that the rook can move to
+            ArrayList movement = new ArrayList();
+            //to get the character from the current position of the rook
+            char character = Position[0];
+
+            int number = (int)char.GetNumericValue(Position[1]);
+
+            //to return all the available positions to the left of the rook
+            for (int i = index; i >= leftLimit; i--)
             {
-                int row = int.Parse(Position[1].ToString());
-                char col = Position[0];
+                string leftString = AlphabetService.GetCharacterFromIndex((i % 8) + 1) + number.ToString();
 
-                int leftCol = AlphabetService.GetIndexFromCharacter(col.ToString()) - 1;
-                int rightCol = AlphabetService.GetIndexFromCharacter(col.ToString()) + 1;
+                if (leftString.Length == 1)
+                {
+                    continue;
+                }
 
-                string leftMovement = AlphabetService.GetCharacterFromIndex(leftCol) + row.ToString();
-                string rightMovement = AlphabetService.GetCharacterFromIndex(rightCol) + row.ToString();
-
-                string frontLeft = AlphabetService.GetCharacterFromIndex(leftCol) + (row + 1).ToString();
-                string frontRight = AlphabetService.GetCharacterFromIndex(rightCol) + (row + 1).ToString();
-                string bottom = col + (row + 1).ToString();
-                string bottomLeft = AlphabetService.GetCharacterFromIndex(leftCol) + (row - 1).ToString();
-                string top = col + (row + 1).ToString();
-                string bottomRight = AlphabetService.GetCharacterFromIndex(rightCol) + (row - 1).ToString();
-
-                string[] movements = { leftMovement, frontLeft, rightMovement, frontRight, bottom, bottomLeft, top, bottomRight };
-
-                return movements;
+                movement.Add(leftString);
             }
-        }
 
-        public string[] RowEight
-        {
-            get
+            //to return all the available positions to the right of the rook
+            for (int i = index; i <= rightLimit; i++)
             {
-                //calculates the position to the left of the piece
-                int left = AlphabetService.GetIndexFromCharacter(Position[0].ToString()) - 1;
-                string leftMovement = AlphabetService.GetCharacterFromIndex(left) + int.Parse(Position[1].ToString()).ToString();
+                string rightString = AlphabetService.GetCharacterFromIndex((i % 8) + 1) + number.ToString();
 
-                //calculates the position to the bottom, then left of the piece
-                int backL = AlphabetService.GetIndexFromCharacter(Position[0].ToString()) - 1;
-                string backLeft = AlphabetService.GetCharacterFromIndex(backL) + int.Parse((Position[1] - 1).ToString()).ToString();
+                if (rightString.Length == 1)
+                {
+                    continue;
+                }
 
-                //calculates the position to the right of the piece
-                int right = AlphabetService.GetIndexFromCharacter(Position[0].ToString()) + 1;
-                string rightMovement = AlphabetService.GetCharacterFromIndex(right) + int.Parse(Position[1].ToString()).ToString();
-
-                //calculates the position to the bottom, then right of the piece
-                int backR = AlphabetService.GetIndexFromCharacter(Position[0].ToString()) + 1;
-                string backRight = AlphabetService.GetCharacterFromIndex(backR) + int.Parse((Position[1] - 1).ToString()).ToString();
-
-                //calculates the position to the bottom of the piece
-                int bottom = AlphabetService.GetIndexFromCharacter(Position[0].ToString());
-                string bottomMovement = AlphabetService.GetCharacterFromIndex(bottom) + int.Parse((Position[1] - 1).ToString()).ToString();
-
-                string[] movements = { leftMovement, backLeft, rightMovement, backRight, bottomMovement };
-
-                return movements;
+                movement.Add(rightString);
             }
-        }
 
-        public string[] RowOne
-        {
-            get
+            //to return all the available positions to the top of the rook
+            for (int i = index; i >= upperLimit; i -= 8)
             {
-                //calculates the position to the left of the piece
-                int left = AlphabetService.GetIndexFromCharacter(Position[0].ToString()) - 1;
-                string leftMovement = AlphabetService.GetCharacterFromIndex(left) + int.Parse(Position[1].ToString()).ToString();
+                string topString = character.ToString() + ((int)(i / 8) + 1).ToString();
 
-                //calculates the position to the top, then left of the piece
-                int topL = AlphabetService.GetIndexFromCharacter(Position[0].ToString()) - 1;
-                string topLeft = AlphabetService.GetCharacterFromIndex(topL) + int.Parse((Position[1] + 1).ToString()).ToString();
+                if (topString.Contains("0"))
+                {
+                    continue;
+                }
 
-                //calculates the position to the right of the piece
-                int right = AlphabetService.GetIndexFromCharacter(Position[0].ToString()) + 1;
-                string rightMovement = AlphabetService.GetCharacterFromIndex(right) + int.Parse(Position[1].ToString()).ToString();
-
-                //calculates the position to the top, then right of the piece
-                int topR = AlphabetService.GetIndexFromCharacter(Position[0].ToString()) + 1;
-                string topRight = AlphabetService.GetCharacterFromIndex(topR) + int.Parse((Position[1] + 1).ToString()).ToString();
-
-                //calculates the position to the top of the piece
-                int top = AlphabetService.GetIndexFromCharacter(Position[0].ToString());
-                string topMovement = AlphabetService.GetCharacterFromIndex(top) + int.Parse((Position[1] + 1).ToString()).ToString();
-
-                string[] movements = { leftMovement, topLeft, rightMovement, topRight, topMovement };
-
-                return movements;
+                movement.Add(topString);
             }
-        }
 
-        public string[] ColumnA
-        {
-            get
+            //to return all the available positions to the bottom of the rook
+            for (int i = index; i <= lowerLimit; i += 8)
             {
-                //calculates the position to the top of the piece
-                int top = AlphabetService.GetIndexFromCharacter(Position[0].ToString());
-                string topMovement = AlphabetService.GetCharacterFromIndex(top) + int.Parse((Position[1] + 1).ToString()).ToString();
+                string bottomString = character.ToString() + ((int)(i / 8) + 1).ToString();
 
-                //calculates the position to the top, then right of the piece
-                int topR = AlphabetService.GetIndexFromCharacter(Position[0].ToString()) + 1;
-                string topRight = AlphabetService.GetCharacterFromIndex(topR) + int.Parse((Position[1] + 1).ToString()).ToString();
+                if (bottomString.Contains("9"))
+                {
+                    continue;
+                }
 
-                //calculates the position to the right of the piece
-                int right = AlphabetService.GetIndexFromCharacter(Position[0].ToString()) + 1;
-                string rightMovement = AlphabetService.GetCharacterFromIndex(right) + int.Parse(Position[1].ToString()).ToString();
-
-                //calculates the position to the bottom, then right of the piece
-                int backR = AlphabetService.GetIndexFromCharacter(Position[0].ToString()) + 1;
-                string backRight = AlphabetService.GetCharacterFromIndex(backR) + int.Parse((Position[1] - 1).ToString()).ToString();
-
-                //calculates the position to the bottom of the piece
-                int bottom = AlphabetService.GetIndexFromCharacter(Position[0].ToString());
-                string bottomMovement = AlphabetService.GetCharacterFromIndex(bottom) + int.Parse((Position[1] - 1).ToString()).ToString();
-
-                string[] movements = { topMovement, topRight, rightMovement, backRight, bottomMovement };
-
-                return movements;
+                movement.Add(bottomString);
             }
-        }
 
-        public string[] ColumnH
-        {
-            get
+            //to return all the available positions to the left up diagonal of the bishop
+            for (int i = index; i >= upperLeft; i -= 9)
             {
-                //calculates the position to the top of the piece
-                int top = AlphabetService.GetIndexFromCharacter(Position[0].ToString());
-                string topMovement = AlphabetService.GetCharacterFromIndex(top) + int.Parse((Position[1] + 1).ToString()).ToString();
-
-                //calculates the position to the top, then left of the piece
-                int topL = AlphabetService.GetIndexFromCharacter(Position[0].ToString()) - 1;
-                string topLeft = AlphabetService.GetCharacterFromIndex(topL) + int.Parse((Position[1] + 1).ToString()).ToString();
-
-                //calculates the position to the left of the piece
-                int left = AlphabetService.GetIndexFromCharacter(Position[0].ToString()) - 1;
-                string leftMovement = AlphabetService.GetCharacterFromIndex(left) + int.Parse(Position[1].ToString()).ToString();
-
-                //calculates the position to the bottom, then left of the piece
-                int bottomL = AlphabetService.GetIndexFromCharacter(Position[0].ToString()) - 1;
-                string bottomLeft = AlphabetService.GetCharacterFromIndex(bottomL) + int.Parse((Position[1] - 1).ToString()).ToString();
-
-                //calculates the position to the bottom of the piece
-                int bottom = AlphabetService.GetIndexFromCharacter(Position[0].ToString());
-                string bottomMovement = AlphabetService.GetCharacterFromIndex(bottom) + int.Parse((Position[1] - 1).ToString()).ToString();
-
-                string[] movements = { topMovement, topLeft, leftMovement, bottomLeft, bottomMovement };
-
-                return movements;
+                string leftUp = AlphabetService.GetCharacterFromIndex((i % 8) + 1).ToString() + ((i / 8) + 1).ToString();
+                movement.Add(leftUp);
             }
-        }
 
-        public string[] A_1
-        {
-            get
+            //to return all the available positions to the right up diagonal of the rook
+            for (int i = index; i >= upperRight; i -= 7)
             {
-                //calculates the position to the top of the piece
-                int top = AlphabetService.GetIndexFromCharacter(Position[0].ToString());
-                string topMovement = AlphabetService.GetCharacterFromIndex(top) + int.Parse((Position[1] + 1).ToString()).ToString();
-
-                //calculates the position to the top right of the piece
-                int topR = AlphabetService.GetIndexFromCharacter(Position[0].ToString()) + 1;
-                string topRight = AlphabetService.GetCharacterFromIndex(topR) + int.Parse((Position[1] + 1).ToString()).ToString();
-
-                //calculates the position to the right of the piece
-                int right = AlphabetService.GetIndexFromCharacter(Position[0].ToString()) + 1;
-                string rightMovement = AlphabetService.GetCharacterFromIndex(right) + int.Parse(Position[1].ToString()).ToString();
-
-                string[] movements = { topMovement, topRight, rightMovement};
-
-                return movements;
+                string rightUp = AlphabetService.GetCharacterFromIndex((i % 8) + 1).ToString() + ((i / 8) + 1).ToString();
+                movement.Add(rightUp);
             }
-        }
 
-        public string[] A_8
-        {
-            get
+            //to return all the available positions to the right down diagonal of the rook
+            for (int i = index; i <= bottomRight; i += 9)
             {
-                //calculates the position to the top of the piece
-                int bottom = AlphabetService.GetIndexFromCharacter(Position[0].ToString());
-                string bottomMovement = AlphabetService.GetCharacterFromIndex(bottom) + int.Parse((Position[1] - 1).ToString()).ToString();
-
-                //calculates the position to the bottom right of the piece
-                int bottomR = AlphabetService.GetIndexFromCharacter(Position[0].ToString()) - 1;
-                string bottomRight = AlphabetService.GetCharacterFromIndex(bottomR) + int.Parse((Position[1] + 1).ToString()).ToString();
-
-                //calculates the position to the right of the piece
-                int right = AlphabetService.GetIndexFromCharacter(Position[0].ToString()) + 1;
-                string rightMovement = AlphabetService.GetCharacterFromIndex(right) + int.Parse(Position[1].ToString()).ToString();
-
-                string[] movements = { bottomMovement, bottomRight, rightMovement };
-
-                return movements;
+                string rightDown = AlphabetService.GetCharacterFromIndex((i % 8) + 1).ToString() + ((i / 8) + 1).ToString();
+                movement.Add(rightDown);
             }
-        }
 
-        public string[] H_1
-        {
-            get
+            //to return all the available positions to the left down diagonal of the rook
+            for (int i = index; i <= bottomLeft; i += 7)
             {
-                //calculates the position to the top of the piece
-                int top = AlphabetService.GetIndexFromCharacter(Position[0].ToString());
-                string topMovement = AlphabetService.GetCharacterFromIndex(top) + int.Parse((Position[1] + 1).ToString()).ToString();
-
-                //calculates the position to the top left of the piece
-                int topL = AlphabetService.GetIndexFromCharacter(Position[0].ToString()) - 1;
-                string topLeft = AlphabetService.GetCharacterFromIndex(topL) + int.Parse((Position[1] + 1).ToString()).ToString();
-
-                //calculates the position to the left of the piece
-                int left = AlphabetService.GetIndexFromCharacter(Position[0].ToString()) - 1;
-                string leftMovement = AlphabetService.GetCharacterFromIndex(left) + int.Parse(Position[1].ToString()).ToString();
-
-                string[] movements = { topMovement, topLeft, leftMovement };
-
-                return movements;
+                string leftDown = AlphabetService.GetCharacterFromIndex((i % 8) + 1).ToString() + ((i / 8) + 1).ToString();
+                movement.Add(leftDown);
             }
-        }
 
-        public string[] H_8
-        {
-            get
+            //to store a list of movements with the position of the clicked on piece removed
+            ArrayList finalMovements = new ArrayList();
+            foreach (string move in movement)
             {
-                //calculates the position to the bottom of the piece
-                int bottom = AlphabetService.GetIndexFromCharacter(Position[0].ToString());
-                string bottomMovement = AlphabetService.GetCharacterFromIndex(bottom) + int.Parse((Position[1] - 1).ToString()).ToString();
-
-                //calculates the position to the bottom left of the piece
-                int bottomL = AlphabetService.GetIndexFromCharacter(Position[0].ToString()) - 1;
-                string bottomLeft = AlphabetService.GetCharacterFromIndex(bottomL) + int.Parse((Position[1] - 1).ToString()).ToString();
-
-                //calculates the position to the left of the piece
-                int left = AlphabetService.GetIndexFromCharacter(Position[0].ToString()) - 1;
-                string leftMovement = AlphabetService.GetCharacterFromIndex(left) + int.Parse(Position[1].ToString()).ToString();
-
-                string[] movements = { bottomMovement, bottomLeft, leftMovement };
-
-                return movements;
+                if (move.Equals(Position))
+                {
+                    continue;
+                }
+                else
+                {
+                    finalMovements.Add(move);
+                }
             }
-        }
 
-        void attack(string colour, string position)
-        {
-            colour = Colour;
-            position = Position;
+            return finalMovements;
         }
     }
 }
