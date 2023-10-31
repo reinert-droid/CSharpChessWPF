@@ -634,7 +634,121 @@ namespace WpfApp1
         //returns the relevant movement that the pawn should do
         ArrayList PawnMovement(Pawn pawn)
         {
-            return pawn.Movement;
+            //to get the index of the pawn in the occupied array
+            int index = AddressToIndex(pawn.Position);
+
+            int moveLimit = 0;
+
+            //to store all the possible movements
+            ArrayList movement = new ArrayList();
+
+            //to check if the pawn is in its intial position
+            if (!pawn.Position.Contains("7") && pawn.Colour.Equals("white"))
+            {
+                //to check if the piece can move upwards
+                if (occupied[index - 8] == null)
+                {
+                    moveLimit++;
+                }
+
+                //to check if the pawn can attack and in which direction the pawn can attack
+                if (occupied[index - 9] != null && occupied[index - 7] != null)
+                {
+                    return pawn.Movement(true, true, index, moveLimit);
+                }
+                else if (occupied[index - 9] != null && occupied[index - 7] == null)
+                {
+                    return pawn.Movement(true, false, index, moveLimit);
+                }
+                else if (occupied[index - 9] == null && occupied[index - 7] != null)
+                {
+                    return pawn.Movement(false, true, index, moveLimit);
+                }
+                return pawn.Movement(false, false, index, moveLimit);
+
+            }
+            //to check if the pawn is in its initial position
+            else if (!pawn.Position.Contains("2") && pawn.Colour.Equals("black"))
+            {
+                //to check if the piece can move downwards
+                if (occupied[index + 8] == null)
+                {
+                    moveLimit++;
+                }
+
+                //to check if the pawn can attack and in which direction the pawn can attack
+                if (occupied[index + 7] != null && occupied[index + 9] != null)
+                {
+                    return pawn.Movement(true, true, index, moveLimit);
+                }
+                else if (occupied[index + 7] != null && occupied[index + 9] == null)
+                {
+                    return pawn.Movement(true, false, index, moveLimit);
+                }
+                else if (occupied[index + 7] == null && occupied[index + 9] != null)
+                {
+                    return pawn.Movement(false, true, index, moveLimit);
+                }
+                return pawn.Movement(false, false, index, moveLimit);
+            }
+            //runs the code if the pawn is in its initial position
+            else if (pawn.Position.Contains("7") && pawn.Colour.Equals("white"))
+            {
+                //to check how far the piece can move upwards
+                if (occupied[index - 8] == null)
+                {
+                    moveLimit++;
+                    if (occupied[index - 16] == null)
+                    {
+                        moveLimit++;
+                    }
+                }
+
+                //to check if the pawn can attack and in which direction the pawn can attack
+                if (occupied[index - 9] != null && occupied[index - 7] != null)
+                {
+                    return pawn.Movement(true, true, index, moveLimit);
+                }
+                else if (occupied[index - 9] != null && occupied[index - 7] == null)
+                {
+                    return pawn.Movement(true, false, index, moveLimit);
+                }
+                else if (occupied[index - 9] == null && occupied[index - 7] != null)
+                {
+                    return pawn.Movement(false, true, index, moveLimit);
+                }
+                return pawn.Movement(false, false, index, moveLimit);
+            }
+            //runs the code if the pawn is in its initial position
+            else if (pawn.Position.Contains("2") && pawn.Colour.Equals("black"))
+            {
+                //to check how far the pawn can move downwards
+                if (occupied[index + 8] == null)
+                {
+                    moveLimit++;
+                    if (occupied[index + 16] == null)
+                    {
+                        moveLimit++;
+                    }
+                }
+
+                //to check if the pawn can attack and in which direction the pawn can attack
+                if (occupied[index + 7] != null && occupied[index + 9] != null)
+                {
+                    return pawn.Movement(true, true, index, moveLimit);
+                }
+                else if (occupied[index + 7] != null && occupied[index + 9] == null)
+                {
+                    return pawn.Movement(true, false, index, moveLimit);
+                }
+                else if (occupied[index + 7] == null && occupied[index + 9] != null)
+                {
+                    return pawn.Movement(false, true, index, moveLimit);
+                }
+                return pawn.Movement(false, false, index, moveLimit);
+            }
+
+            return pawn.Movement(false, false, index, moveLimit);
         }
 
         //returns the relevant movement that the knight should do
@@ -914,6 +1028,7 @@ namespace WpfApp1
         //to handle the double click event on a square on the board
         private void MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            bool movedOnly = false;
             bool isAttacking = false;
 
             //resets the colours of the chess board after the last time a piece was clicked on
@@ -925,42 +1040,54 @@ namespace WpfApp1
             //to get the name from the button, which is also the address of the button
             string name = source.Name;
 
+            //to get the index of the newly clicked on block
+            int newIndex = AddressToIndex(name);
+
+            //iterates over the positions returned by the previous piece
             foreach (string address in newPositions)
             {
                 if (name.Equals(address))
                 {
-                    // values passed are, position of the attacking piece in the occupied array, the name of the attacked
-                    // piece, the imageId of the attacking piece and the index of the attacking piece
-                    isAttacking = NewPosition(occupied[index], name, imageId, AddressToIndex(previousPieceName[0]));
-                    break;
+                    //checks if the new clicked on postion and the previous clicked on position are occupied or not
+                    if (occupied[index] != null && occupied[newIndex] != null)
+                    {
+                        //compares the colours of the previous clicked on piece and the new clicked on piece
+                        if (occupied[index].Colour.Equals(playerTurn[0]) && !occupied[newIndex].Colour.Equals(playerTurn[0]))
+                        {
+                            // values passed are, position of the attacking piece in the occupied array, the name of the attacked
+                            // piece, the imageId of the attacking piece and the index of the attacking piece
+                            isAttacking = NewPosition(occupied[index], name, imageId, AddressToIndex(previousPieceName[0]));
+                            break;
+                        }
+                        
+                    }
+                    //checks if the previous piece if occupied and the new piece is not occupied
+                    else if (occupied[index] != null && occupied[newIndex] == null)
+                    {
+                        //checks if the previous piece corresponds to the playerturn colour
+                        if (occupied[index].Colour.Equals(playerTurn[0]))
+                        {
+                            // values passed are, position of the attacking piece in the occupied array, the name of the attacked
+                            // piece, the imageId of the attacking piece and the index of the attacking piece
+                            isAttacking = NewPosition(occupied[index], name, imageId, AddressToIndex(previousPieceName[0]));
+                            movedOnly = true;
+                            break;
+                        }
+                    }
+                }
+                //checks if the player clicked on their own piece when it is not their turn
+                else if (occupied[index] != null && occupied[newIndex] != null)
+                {
+                    if (!occupied[index].Colour.Equals(playerTurn[0]) && !occupied[newIndex].Colour.Equals(playerTurn[0]))
+                    {
+                        movedOnly = true;
+                    }
                 }
             }
 
             //to get the index of where the piece is stored
             index = AddressToIndex(name);
-
-            if (occupied[index] != null)
-            {
-                if (!occupied[index].Colour.Equals(playerTurn[0]))
-                {
-                    return;
-                }
-                else
-                {
-                    foreach (string position in newPositions)
-                    {
-                        if (!position.Equals(name))
-                        {
-                            if (!occupied[index].Colour.Equals(playerTurn[0]))
-                            {
-                                newPositions.Clear();
-                                return;
-                            }
-                        }
-                    }
-                }
-            }
-
+            
             newPositions.Clear();
 
             //to check if the button that was clicked on actually contains a chess piece
@@ -1048,8 +1175,8 @@ namespace WpfApp1
                     newPositions.Add(move);
                 }
 
-                //to check if the piece is attacking or not
-                if(!isAttacking)
+                //to check if the piece is attacking or not and if the piece only moved to a new spot
+                if(!isAttacking && !movedOnly)
                 {
                     foreach (string move in movement)
                     {
@@ -1162,6 +1289,14 @@ namespace WpfApp1
 
         public bool NewPosition(Piece piece, string newPosition, int imageNum, int index)
         {
+            if (playerTurn[0].Equals("white"))
+            {
+                playerTurn[0] = "black";
+            }
+            else
+            {
+                playerTurn[0] = "white";
+            }
             //to check if there is a piece in the new position
             if (occupied[AddressToIndex(newPosition)] != null)
             {

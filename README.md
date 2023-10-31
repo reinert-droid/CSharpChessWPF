@@ -1,6 +1,5 @@
-# ChessMaster: A WPF chess game for Aspiring GrandMasters
-## About the project
-This is a chess game that is developed using WPF, with XAML for the frontend and C# for the backend. It supports two player mode with planned implementation of a single player mode with AI components.
+# About the project
+This is a chess game that is made using WPF, with XAML for the frontend of the project and C# in the backend. I want the game to be able to be played in two player mode as well as single player.
 ## Why I did this project
 I did this to prove my proficiency and compitency as a C# and .NET developer. This project displays my ability to make use of Object Oriented Programming as well as basic C# concepts such as loops and if statements. It also displays that I am able to work on the backend, as well as the frontend and connect the backend with the frontend. It also displays my abilities as a .NET developer in the form of the project being done in WPF.
 ## Future plans for this project

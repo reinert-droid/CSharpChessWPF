@@ -11,81 +11,87 @@ namespace WpfApp1
 {
     internal class Pawn : Piece
     {
-        public ArrayList Movement
+        public ArrayList Movement(bool canAttackLeft, bool canAttackRight, int index, int moveLimit)
         {
-            get
+            ArrayList arrayList = new ArrayList();
+
+            //checks what colour the pawn is and how far the pawn can move
+            if(Colour.Equals("white"))
             {
-                ArrayList arrayList = new ArrayList();
-                //checks what colour the pawn is
-                if (Colour == "white" && Position[1] != '7')
+                for (int i = 1; i <= moveLimit; i++)
                 {
-                    arrayList.Add(Position[0] + (char.GetNumericValue(Position[1]) - 1).ToString());
-                    return arrayList;
+                    arrayList.Add(Position[0] + ((index - (8 * i)) / 8 + 1).ToString());
                 }
-                else if (Colour == "black" && Position[1] != '2')
+
+                if (canAttackLeft)
                 {
-                    arrayList.Add(Position[0] + (char.GetNumericValue(Position[1]) + 1).ToString());
-                    return arrayList;
+                    arrayList.Add(AlphabetService.GetCharacterFromIndex((index - 9) % 8 + 1) + ((index - 9) / 8 + 1).ToString());
                 }
-                else if (Colour == "white" && Position[1] == '7')
+                if (canAttackRight)
                 {
-                    arrayList.Add(Position[0] + (char.GetNumericValue(Position[1]) - 1).ToString());
-                    arrayList.Add(Position[0] + (char.GetNumericValue(Position[1]) - 2).ToString());
-                    return arrayList;
+                    arrayList.Add(AlphabetService.GetCharacterFromIndex((index - 7) % 8 + 1) + ((index - 7) / 8 + 1).ToString());
                 }
-                else if (Colour == "black" && Position[1] == '2')
-                {
-                    arrayList.Add(Position[0] + (char.GetNumericValue(Position[1]) + 1).ToString());
-                    arrayList.Add(Position[0] + (char.GetNumericValue(Position[1]) + 2).ToString());
-                    return arrayList;
-                }
+
                 return arrayList;
             }
+            else if (Colour.Equals("black"))
+            {
+                for (int i = 1; i <= moveLimit; i++)
+                {
+                    arrayList.Add(Position[0] + ((index + (8 * i)) / 8 + 1).ToString());
+                }
+
+                if (canAttackLeft)
+                {
+                    arrayList.Add(AlphabetService.GetCharacterFromIndex((index + 7) % 8 + 1) + ((index + 7) / 8 + 1).ToString());
+                }
+                if (canAttackRight)
+                {
+                    arrayList.Add(AlphabetService.GetCharacterFromIndex((index + 9) % 8 + 1) + ((index + 9) / 8 + 1).ToString());
+                }
+
+                return arrayList;
+            }
+
+            return arrayList;
+
         }
 
-        public string TwoMovement()
-        {
-            //checks what colour the pawn is
-            if (Colour == "white")
-            {
-                return int.Parse((Position[1] + 2).ToString()).ToString() + Position[0];
-            }
-            else if (Colour == "black")
-            {
-                return int.Parse((Position[1] - 2).ToString()).ToString() + Position[0];
-            }
-            return "pawn";
-        }
-
-        public string[] attack()
+        public ArrayList Attack( bool canAttackLeft, bool canAttackRight, int index)
         {
             if (Colour == "white")
             {
-                int left = AlphabetService.GetIndexFromCharacter(Position[0].ToString()) - 1;
-                string leftWhiteAttack = int.Parse((Position[1] + 1).ToString()).ToString() + AlphabetService.GetCharacterFromIndex(left);
+                ArrayList whiteAttack = new ArrayList();
 
-                int right = AlphabetService.GetIndexFromCharacter(Position[0].ToString()) + 1;
-                string rightWhiteAttack = int.Parse((Position[1] + 1).ToString()).ToString() + AlphabetService.GetCharacterFromIndex(right);
-
-                string[] whiteAttack = { leftWhiteAttack, rightWhiteAttack };
+                if (canAttackLeft)
+                {
+                    whiteAttack.Add(((index - 9) % 8).ToString() + ((index - 9) / 8).ToString());
+                }
+                if (canAttackRight)
+                {
+                    whiteAttack.Add(((index - 7) % 8).ToString() + ((index - 7) / 8).ToString());
+                }
 
                 return whiteAttack;
             }
             else if (Colour == "black")
             {
-                int left = AlphabetService.GetIndexFromCharacter(Position[0].ToString()) - 1;
-                string leftBlackAttack = int.Parse((Position[1] - 1).ToString()).ToString() + AlphabetService.GetCharacterFromIndex(left);
+                ArrayList blackAttack = new ArrayList();
 
-                int right = AlphabetService.GetIndexFromCharacter(Position[0].ToString()) + 1;
-                string rightBlackAttack = int.Parse((Position[1] - 1).ToString()).ToString() + AlphabetService.GetCharacterFromIndex(right);
-
-                string[] blackAttack = { leftBlackAttack, rightBlackAttack };
+                if (canAttackLeft)
+                {
+                    blackAttack.Add(((index + 7) % 8).ToString() + ((index + 7) / 8).ToString());
+                }
+                if (canAttackRight)
+                {
+                    blackAttack.Add(((index + 9) % 8).ToString() + ((index + 9) / 8).ToString());
+                }
 
                 return blackAttack;
             }
 
-            string[] error = { "pawn attack", Colour };
-            return error;
+            ArrayList emptyList = new ArrayList ();
+            return emptyList;
         }
     }
 }
