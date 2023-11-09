@@ -1,4 +1,4 @@
-# ChessM: A WPF Chess Game
+# Chess: A WPF Chess Game
 
 ## About the Project
 ChessMaster is a chess game developed using WPF, with XAML for the frontend and C# for the backend. It supports two-player mode and has plans for implementing a single-player mode with AI opponents.
