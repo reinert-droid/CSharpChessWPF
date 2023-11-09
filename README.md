@@ -1,8 +1,46 @@
-# About the project
-This is a chess game that is made using WPF, with XAML for the frontend of the project and C# in the backend. I want the game to be able to be played in two player mode as well as single player.
-## Why I did this project
-I did this to prove my proficiency and compitency as a C# and .NET developer. This project displays my ability to make use of Object Oriented Programming as well as basic C# concepts such as loops and if statements. It also displays that I am able to work on the backend, as well as the frontend and connect the backend with the frontend. It also displays my abilities as a .NET developer in the form of the project being done in WPF.
-## Future plans for this project
-I want the machine play against the player by utilizing algorithms, which would display my knowledge in the field of computer science. Unfortunately I still have to finish the base project, which is just making a functioning, polished chess game. At the moment the program is meant to be 2 player, but it is still riddled with bugs that still have to be sorted out by me.
-## Why am I still making this project available for anyone to view if it does not even function properly yet?
-I think that even though the project is buggy and not functioning yet, I still believe that anyone who views this project would agree that it still proves my ability to program in C#.
+# ChessM: A WPF Chess Game
+
+## About the Project
+ChessMaster is a chess game developed using WPF, with XAML for the frontend and C# for the backend. It supports two-player mode and has plans for implementing a single-player mode with AI opponents.
+
+## Getting Started
+To play ChessMaster, follow these steps:
+1. [Installation instructions here]
+2. [Run the application]
+3. [How to start a new game]
+
+## Features
+- [Feature 1]: Describe a key feature.
+- [Feature 2]: Explain another feature.
+
+![ChessMaster Screenshot](link-to-screenshot.png)
+
+## Technology Stack
+- WPF [version]
+- C# [version]
+
+## Project Structure
+- `Backend/`: Contains the backend code.
+- `Frontend/`: Houses the frontend code and XAML files.
+- ...
+
+## Known Issues and Roadmap
+### Known Issues
+- [Bug 1]: Describe a known bug.
+- [Bug 2]: Mention another issue.
+
+### Future Plans
+- Implement AI opponents using [algorithm].
+- [Feature 3]: Outline another feature you plan to add.
+
+## Contributing
+We welcome contributions! Please follow our [contribution guidelines](CONTRIBUTING.md) before submitting pull requests.
+
+## Acknowledgments
+- [Library/Resource/Individual]: Mention those who contributed to your project.
+
+## License
+This project is licensed under the [License Name] - see the [LICENSE](LICENSE) file for details.
+
+---
+By [Your Name]
