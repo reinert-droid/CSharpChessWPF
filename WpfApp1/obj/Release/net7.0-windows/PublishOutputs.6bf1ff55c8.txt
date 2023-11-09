@@ -1,0 +1,22 @@
+C:\Users\Admin\source\repos\WpfApp1\ChessApp\Assets\b_pawn.png
+C:\Users\Admin\source\repos\WpfApp1\ChessApp\Assets\b_bishop.png
+C:\Users\Admin\source\repos\WpfApp1\ChessApp\Assets\b_king.png
+C:\Users\Admin\source\repos\WpfApp1\ChessApp\Assets\b_knight.png
+C:\Users\Admin\source\repos\WpfApp1\ChessApp\Assets\b_queen.png
+C:\Users\Admin\source\repos\WpfApp1\ChessApp\Assets\b_rook.png
+C:\Users\Admin\source\repos\WpfApp1\ChessApp\Assets\square brown dark_png_shadow_1024px.png
+C:\Users\Admin\source\repos\WpfApp1\ChessApp\Assets\square brown light_png_shadow_1024px.png
+C:\Users\Admin\source\repos\WpfApp1\ChessApp\Assets\square gray dark _png_shadow_1024px.png
+C:\Users\Admin\source\repos\WpfApp1\ChessApp\Assets\square gray light _png_shadow_1024px.png
+C:\Users\Admin\source\repos\WpfApp1\ChessApp\Assets\w_bishop.png
+C:\Users\Admin\source\repos\WpfApp1\ChessApp\Assets\w_king.png
+C:\Users\Admin\source\repos\WpfApp1\ChessApp\Assets\w_knight.png
+C:\Users\Admin\source\repos\WpfApp1\ChessApp\Assets\w_pawn.png
+C:\Users\Admin\source\repos\WpfApp1\ChessApp\Assets\w_queen.png
+C:\Users\Admin\source\repos\WpfApp1\ChessApp\Assets\w_rook.png
+C:\Users\Admin\source\repos\WpfApp1\ChessApp\WpfApp1.exe
+C:\Users\Admin\source\repos\WpfApp1\ChessApp\WpfApp1.dll
+C:\Users\Admin\source\repos\WpfApp1\ChessApp\WpfApp1.deps.json
+C:\Users\Admin\source\repos\WpfApp1\ChessApp\WpfApp1.runtimeconfig.json
+C:\Users\Admin\source\repos\WpfApp1\ChessApp\WpfApp1.pdb
+C:\Users\Admin\source\repos\WpfApp1\ChessApp\Alphabet.dll

@@ -1,0 +1,6 @@
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\bin\Release\net7.0-windows\app.publish\WpfApp1.exe
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\bin\Release\net7.0-windows\app.publish\WpfApp1.dll
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\bin\Release\net7.0-windows\app.publish\WpfApp1.deps.json
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\bin\Release\net7.0-windows\app.publish\WpfApp1.runtimeconfig.json
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\bin\Release\net7.0-windows\app.publish\WpfApp1.pdb
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\bin\Release\net7.0-windows\app.publish\Alphabet.dll

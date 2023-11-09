@@ -1,0 +1,24 @@
+{
+  "version": 2,
+  "dgSpecHash": "sG2GHLuZ8NUn5K2yiPdHQZaKBKNu4t/tltVcyWOxuHG3IEyRL5rSVY+vzVoX70kYn5wO8BPtBHJ7WOT1c/SlSg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Admin\\source\\repos\\WpfApp1\\WpfApp1\\WpfApp1.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Admin\\.nuget\\packages\\alphabet\\1.0.2\\alphabet.1.0.2.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x86\\7.0.13\\microsoft.netcore.app.runtime.win-x86.7.0.13.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x86\\7.0.13\\microsoft.windowsdesktop.app.runtime.win-x86.7.0.13.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x86\\7.0.13\\microsoft.aspnetcore.app.runtime.win-x86.7.0.13.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Alphabet 1.0.2' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net7.0-windows7.0'. This package may not be fully compatible with your project.",
+      "libraryId": "Alphabet",
+      "targetGraphs": [
+        "net7.0-windows7.0"
+      ]
+    }
+  ]
+}

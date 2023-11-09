@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "dgSpecHash": "+JvO1WAynDQQExSXptJzTTD7TfsF1XoP5iSkoEq1Xl+5rhuoPAHqIVKGJkt4wrevWeuh2uHNYPVl0L+SbdJBQg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Admin\\source\\repos\\WpfApp1\\WpfApp1\\WpfApp1.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Admin\\.nuget\\packages\\alphabet\\1.0.2\\alphabet.1.0.2.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Alphabet 1.0.2' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net7.0-windows7.0'. This package may not be fully compatible with your project.",
+      "libraryId": "Alphabet",
+      "targetGraphs": [
+        "net7.0-windows7.0"
+      ]
+    }
+  ]
+}

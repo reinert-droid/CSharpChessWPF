@@ -1,0 +1,6 @@
+C:\Users\Admin\Downloads\WpfApp1.exe
+C:\Users\Admin\Downloads\WpfApp1.dll
+C:\Users\Admin\Downloads\WpfApp1.deps.json
+C:\Users\Admin\Downloads\WpfApp1.runtimeconfig.json
+C:\Users\Admin\Downloads\WpfApp1.pdb
+C:\Users\Admin\Downloads\Alphabet.dll

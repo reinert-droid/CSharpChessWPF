@@ -56,42 +56,5 @@ namespace WpfApp1
             return arrayList;
 
         }
-
-        public ArrayList Attack( bool canAttackLeft, bool canAttackRight, int index)
-        {
-            if (Colour == "white")
-            {
-                ArrayList whiteAttack = new ArrayList();
-
-                if (canAttackLeft)
-                {
-                    whiteAttack.Add(((index - 9) % 8).ToString() + ((index - 9) / 8).ToString());
-                }
-                if (canAttackRight)
-                {
-                    whiteAttack.Add(((index - 7) % 8).ToString() + ((index - 7) / 8).ToString());
-                }
-
-                return whiteAttack;
-            }
-            else if (Colour == "black")
-            {
-                ArrayList blackAttack = new ArrayList();
-
-                if (canAttackLeft)
-                {
-                    blackAttack.Add(((index + 7) % 8).ToString() + ((index + 7) / 8).ToString());
-                }
-                if (canAttackRight)
-                {
-                    blackAttack.Add(((index + 9) % 8).ToString() + ((index + 9) / 8).ToString());
-                }
-
-                return blackAttack;
-            }
-
-            ArrayList emptyList = new ArrayList ();
-            return emptyList;
-        }
     }
 }

@@ -8,6 +8,79 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\b_bishop.png" />
+    <None Remove="Assets\b_king.png" />
+    <None Remove="Assets\b_knight.png" />
+    <None Remove="Assets\b_pawn.png" />
+    <None Remove="Assets\b_queen.png" />
+    <None Remove="Assets\b_rook.png" />
+    <None Remove="Assets\square brown dark_png_shadow_1024px.png" />
+    <None Remove="Assets\square brown light_png_shadow_1024px.png" />
+    <None Remove="Assets\square gray dark _png_shadow_1024px.png" />
+    <None Remove="Assets\square gray light _png_shadow_1024px.png" />
+    <None Remove="Assets\w_bishop.png" />
+    <None Remove="Assets\w_king.png" />
+    <None Remove="Assets\w_knight.png" />
+    <None Remove="Assets\w_pawn.png" />
+    <None Remove="Assets\w_queen.png" />
+    <None Remove="Assets\w_rook.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\b_pawn.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\b_bishop.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\b_king.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\b_knight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\b_queen.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\b_rook.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\square brown dark_png_shadow_1024px.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\square brown light_png_shadow_1024px.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\square gray dark _png_shadow_1024px.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\square gray light _png_shadow_1024px.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\w_bishop.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\w_king.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\w_knight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\w_pawn.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\w_queen.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\w_rook.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Alphabet" Version="1.0.2" />
   </ItemGroup>
 

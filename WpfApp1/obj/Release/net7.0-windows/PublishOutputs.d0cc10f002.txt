@@ -1,0 +1,22 @@
+C:\Users\Admin\Downloads\WpfApp1\Assets\b_pawn.png
+C:\Users\Admin\Downloads\WpfApp1\Assets\b_bishop.png
+C:\Users\Admin\Downloads\WpfApp1\Assets\b_king.png
+C:\Users\Admin\Downloads\WpfApp1\Assets\b_knight.png
+C:\Users\Admin\Downloads\WpfApp1\Assets\b_queen.png
+C:\Users\Admin\Downloads\WpfApp1\Assets\b_rook.png
+C:\Users\Admin\Downloads\WpfApp1\Assets\square brown dark_png_shadow_1024px.png
+C:\Users\Admin\Downloads\WpfApp1\Assets\square brown light_png_shadow_1024px.png
+C:\Users\Admin\Downloads\WpfApp1\Assets\square gray dark _png_shadow_1024px.png
+C:\Users\Admin\Downloads\WpfApp1\Assets\square gray light _png_shadow_1024px.png
+C:\Users\Admin\Downloads\WpfApp1\Assets\w_bishop.png
+C:\Users\Admin\Downloads\WpfApp1\Assets\w_king.png
+C:\Users\Admin\Downloads\WpfApp1\Assets\w_knight.png
+C:\Users\Admin\Downloads\WpfApp1\Assets\w_pawn.png
+C:\Users\Admin\Downloads\WpfApp1\Assets\w_queen.png
+C:\Users\Admin\Downloads\WpfApp1\Assets\w_rook.png
+C:\Users\Admin\Downloads\WpfApp1\WpfApp1.exe
+C:\Users\Admin\Downloads\WpfApp1\WpfApp1.dll
+C:\Users\Admin\Downloads\WpfApp1\WpfApp1.deps.json
+C:\Users\Admin\Downloads\WpfApp1\WpfApp1.runtimeconfig.json
+C:\Users\Admin\Downloads\WpfApp1\WpfApp1.pdb
+C:\Users\Admin\Downloads\WpfApp1\Alphabet.dll

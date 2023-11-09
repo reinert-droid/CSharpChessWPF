@@ -45,6 +45,10 @@ namespace WpfApp1
 
         static string[] playerTurn = { "white"};
 
+        ArrayList whiteAttackBlocks = new ArrayList();
+
+        ArrayList blackAttackBlocks = new ArrayList();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -56,7 +60,7 @@ namespace WpfApp1
                 Mode = BindingMode.OneWay
             };
             chessBoard.SetBinding(Grid.WidthProperty, binding);
-
+            
             InitializeChessBoard();
 
             InitializePieces();
@@ -652,15 +656,15 @@ namespace WpfApp1
                 }
 
                 //to check if the pawn can attack and in which direction the pawn can attack
-                if (occupied[index - 9] != null && occupied[index - 7] != null)
+                if (occupied[index - 9] != null && occupied[index - 7] != null && !isPawnFarRight(index) && index % 8 != 0)
                 {
                     return pawn.Movement(true, true, index, moveLimit);
                 }
-                else if (occupied[index - 9] != null && occupied[index - 7] == null)
+                else if (occupied[index - 9] != null && occupied[index - 7] == null && index % 8 != 0)
                 {
                     return pawn.Movement(true, false, index, moveLimit);
                 }
-                else if (occupied[index - 9] == null && occupied[index - 7] != null)
+                else if (occupied[index - 9] == null && occupied[index - 7] != null && !isPawnFarRight(index))
                 {
                     return pawn.Movement(false, true, index, moveLimit);
                 }
@@ -677,15 +681,15 @@ namespace WpfApp1
                 }
 
                 //to check if the pawn can attack and in which direction the pawn can attack
-                if (occupied[index + 7] != null && occupied[index + 9] != null)
+                if (occupied[index + 7] != null && occupied[index + 9] != null && !isPawnFarRight(index) && index % 8 != 0)
                 {
                     return pawn.Movement(true, true, index, moveLimit);
                 }
-                else if (occupied[index + 7] != null && occupied[index + 9] == null)
+                else if (occupied[index + 7] != null && occupied[index + 9] == null && index % 8 != 0)
                 {
                     return pawn.Movement(true, false, index, moveLimit);
                 }
-                else if (occupied[index + 7] == null && occupied[index + 9] != null)
+                else if (occupied[index + 7] == null && occupied[index + 9] != null && !isPawnFarRight(index))
                 {
                     return pawn.Movement(false, true, index, moveLimit);
                 }
@@ -705,15 +709,15 @@ namespace WpfApp1
                 }
 
                 //to check if the pawn can attack and in which direction the pawn can attack
-                if (occupied[index - 9] != null && occupied[index - 7] != null)
+                if (occupied[index - 9] != null && occupied[index - 7] != null && !isPawnFarRight(index) && index % 8 != 0)
                 {
                     return pawn.Movement(true, true, index, moveLimit);
                 }
-                else if (occupied[index - 9] != null && occupied[index - 7] == null)
+                else if (occupied[index - 9] != null && occupied[index - 7] == null && index % 8 != 0)
                 {
                     return pawn.Movement(true, false, index, moveLimit);
                 }
-                else if (occupied[index - 9] == null && occupied[index - 7] != null)
+                else if (occupied[index - 9] == null && occupied[index - 7] != null && !isPawnFarRight(index))
                 {
                     return pawn.Movement(false, true, index, moveLimit);
                 }
@@ -733,15 +737,15 @@ namespace WpfApp1
                 }
 
                 //to check if the pawn can attack and in which direction the pawn can attack
-                if (occupied[index + 7] != null && occupied[index + 9] != null)
+                if (occupied[index + 7] != null && occupied[index + 9] != null && !isPawnFarRight(index) && index % 8 != 0)
                 {
                     return pawn.Movement(true, true, index, moveLimit);
                 }
-                else if (occupied[index + 7] != null && occupied[index + 9] == null)
+                else if (occupied[index + 7] != null && occupied[index + 9] == null && index % 8 != 0)
                 {
                     return pawn.Movement(true, false, index, moveLimit);
                 }
-                else if (occupied[index + 7] == null && occupied[index + 9] != null)
+                else if (occupied[index + 7] == null && occupied[index + 9] != null && !isPawnFarRight(index))
                 {
                     return pawn.Movement(false, true, index, moveLimit);
                 }
@@ -755,64 +759,137 @@ namespace WpfApp1
         ArrayList KnightMovement(Knight knight)
         {
             //stores the current position of the knight
-            string position = knight.Position;
+            int index = AddressToIndex(knight.Position);
+            int upThenLeft = index;
+            int upThenRight = index;
+            int leftThenUp = index;
+            int rightThenUp = index;
+            int leftThenDown = index;
+            int rightThenDown = index;
+            int downThenLeft = index;
+            int downThenRight = index;
 
-            switch (position)
+            if(upThenLeft - 17 >= 0)
             {
-                case "b8":
-                    return knight.B8;
-                case "b1":
-                    return knight.B1;
-                case "a8":
-                    return knight.A1;
-                case "a1":
-                    return knight.A1;
-                case "g1":
-                    return knight.G1;
-                case "g8":
-                    return knight.G8;
-                case "h8":
-                    return knight.H8;
-                case "h1":
-                    return knight.H1;
-
-                default:
-                    break;
-            }
-            if (position.Contains("7"))
-            {
-                return knight.RowSeven;
-            }
-            else if (position.Contains("8"))
-            {
-                return knight.RowEight;
-            }
-            else if (position.Contains("2"))
-            {
-                return knight.RowTwo;
-            }
-            else if (position.Contains("1"))
-            {
-                return knight.RowOne;
-            }
-            else if (position.Contains("a"))
-            {
-                return knight.ColumnA;
-            }
-            else if (position.Contains("b"))
-            {
-                return knight.ColumnB;
-            }
-            else if (position.Contains("g"))
-            {
-                return knight.ColumnG;
-            }
-            else if (position.Contains("h"))
-            {
-                return knight.ColumnH;
+                if (occupied[index - 17] == null)
+                {
+                    upThenLeft -= 17;
+                }
+                else if (occupied[index - 17] != null)
+                {
+                    if (!occupied[index - 17].Colour.Equals(knight.Colour))
+                    {
+                        upThenLeft -= 17;
+                    }
+                }
             }
 
-            return knight.AllMovement;
+            if (upThenRight - 15 >= 0)
+            {
+                if (occupied[index - 15] == null)
+                {
+                    upThenRight -= 15;
+                }
+                else if (occupied[index - 15] != null)
+                {
+                    if (!occupied[index - 15].Colour.Equals(knight.Colour))
+                    {
+                        upThenRight -= 15;
+                    }
+                }
+            }
+
+            if (leftThenUp - 10 >= 0)
+            {
+                if (occupied[index - 10] == null)
+                {
+                    leftThenUp -= 10;
+                }
+                else if (occupied[index - 10] != null)
+                {
+                    if (!occupied[index - 10].Colour.Equals(knight.Colour))
+                    {
+                        leftThenUp -= 10;
+                    }
+                }
+            }
+
+            if (rightThenUp - 6 >= 0)
+            {
+                if (occupied[index - 6] == null)
+                {
+                    rightThenUp -= 6;
+                }
+                else if (occupied[index - 6] != null)
+                {
+                    if (!occupied[index - 6].Colour.Equals(knight.Colour))
+                    {
+                        rightThenUp -= 6;
+                    }
+                }
+            }
+
+            if (leftThenDown + 6 < 64)
+            {
+                if (occupied[index + 6] == null)
+                {
+                    leftThenDown += 6;
+                }
+                else if (occupied[index + 6] != null)
+                {
+                    if (!occupied[index + 6].Colour.Equals(knight.Colour))
+                    {
+                        leftThenDown += 6;
+                    }
+                }
+            }
+
+            if (rightThenDown + 10 < 64)
+            {
+                if (occupied[index + 10] == null)
+                {
+                    rightThenDown += 10;
+                }
+                else if (occupied[index + 10] != null)
+                {
+                    if (!occupied[index + 10].Colour.Equals(knight.Colour))
+                    {
+                        rightThenDown += 10;
+                    }
+                }
+            }
+
+            if (downThenLeft + 15 < 64)
+            {
+                if (occupied[index + 15] == null)
+                {
+                    downThenLeft += 15;
+                }
+                else if (occupied[index + 15] != null)
+                {
+                    if (!occupied[index + 15].Colour.Equals(knight.Colour))
+                    {
+                        downThenLeft += 15;
+                    }
+                }
+            }
+
+            if (downThenRight + 17 < 64)
+            {
+                if (occupied[index + 17] == null)
+                {
+                    downThenRight += 17;
+                }
+                else if (occupied[index + 17] != null)
+                {
+                    if (!occupied[index + 17].Colour.Equals(knight.Colour))
+                    {
+                        downThenRight += 17;
+                    }
+                }
+            }
+
+            return knight.AllMovement(upThenLeft, upThenRight, leftThenUp, rightThenUp, leftThenDown, rightThenDown, downThenLeft, downThenRight, index);
         }
 
         //adds the relevant information to every piece on the board
@@ -910,6 +987,10 @@ namespace WpfApp1
                 {
                     button.Content = image(i);
                 }
+                else
+                {
+                    button.Content = null;
+                }
             }
         }
 
@@ -921,100 +1002,100 @@ namespace WpfApp1
             switch (number)
             {
                 case 0: 
-                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\b_rook.png";
+                    source = rootDirectory + "\\Assets\\b_rook.png";
                     break;
                 case 1:
-                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\b_knight.png";
+                    source = rootDirectory + "\\Assets\\b_knight.png";
                     break;
                 case 2:
-                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\b_bishop.png";
+                    source = rootDirectory + "\\Assets\\b_bishop.png";
                     break;
                 case 3:
-                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\b_queen.png";
+                    source = rootDirectory + "\\Assets\\b_queen.png";
                     break;
                 case 4:
-                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\b_king.png";
+                    source = rootDirectory + "\\Assets\\b_king.png";
                     break;
                 case 5:
-                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\b_bishop.png";
+                    source = rootDirectory + "\\Assets\\b_bishop.png";
                     break;
                 case 6:
-                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\b_knight.png";
+                    source = rootDirectory + "\\Assets\\b_knight.png";
                     break;
                 case 7:
-                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\b_rook.png";
+                    source = rootDirectory + "\\Assets\\b_rook.png";
                     break;
                 case 8:
-                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\b_pawn.png";
+                    source = rootDirectory + "\\Assets\\b_pawn.png";
                     break;
                 case 9:
-                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\b_pawn.png";
+                    source = rootDirectory + "\\Assets\\b_pawn.png";
                     break;
                 case 10:
-                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\b_pawn.png";
+                    source = rootDirectory + "\\Assets\\b_pawn.png";
                     break;
                 case 11:
-                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\b_pawn.png";
+                    source = rootDirectory + "\\Assets\\b_pawn.png";
                     break;
                 case 12:
-                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\b_pawn.png";
+                    source = rootDirectory + "\\Assets\\b_pawn.png";
                     break;
                 case 13:
-                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\b_pawn.png";
+                    source = rootDirectory + "\\Assets\\b_pawn.png";
                     break;
                 case 14:
-                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\b_pawn.png";
+                    source = rootDirectory + "\\Assets\\b_pawn.png";
                     break;
                 case 15:
-                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\b_pawn.png";
+                    source = rootDirectory + "\\Assets\\b_pawn.png";
                     break;
                 case 48:
-                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\w_pawn.png";
+                    source = rootDirectory + "\\Assets\\w_pawn.png";
                     break;
                 case 49:
-                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\w_pawn.png";
+                    source = rootDirectory + "\\Assets\\w_pawn.png";
                     break;
                 case 50:
-                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\w_pawn.png";
+                    source = rootDirectory + "\\Assets\\w_pawn.png";
                     break;
                 case 51:
-                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\w_pawn.png";
+                    source = rootDirectory + "\\Assets\\w_pawn.png";
                     break;
                 case 52:
-                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\w_pawn.png";
+                    source = rootDirectory + "\\Assets\\w_pawn.png";
                     break;
                 case 53:
-                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\w_pawn.png";
+                    source = rootDirectory + "\\Assets\\w_pawn.png";
                     break;
                 case 54:
-                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\w_pawn.png";
+                    source = rootDirectory + "\\Assets\\w_pawn.png";
                     break;
                 case 55:
-                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\w_pawn.png";
+                    source = rootDirectory + "\\Assets\\w_pawn.png";
                     break;
                 case 56:
-                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\w_rook.png";
+                    source = rootDirectory + "\\Assets\\w_rook.png";
                     break;
                 case 57:
-                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\w_knight.png";
+                    source = rootDirectory + "\\Assets\\w_knight.png";
                     break;
                 case 58:
-                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\w_bishop.png";
+                    source = rootDirectory + "\\Assets\\w_bishop.png";
                     break;
                 case 59:
-                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\w_queen.png";
+                    source = rootDirectory + "\\Assets\\w_queen.png";
                     break;
                 case 60:
-                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\w_king.png";
+                    source = rootDirectory + "\\Assets\\w_king.png";
                     break;
                 case 61:
-                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\w_bishop.png";
+                    source = rootDirectory + "\\Assets\\w_bishop.png";
                     break;
                 case 62:
-                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\w_knight.png";
+                    source = rootDirectory + "\\Assets\\w_knight.png";
                     break;
                 case 63:
-                    source = rootDirectory + "\\..\\..\\..\\..\\Assets\\w_rook.png";
+                    source = rootDirectory + "\\Assets\\w_rook.png";
                     break;
                 default:
                     break;
@@ -1061,7 +1142,7 @@ namespace WpfApp1
                         }
                         
                     }
-                    //checks if the previous piece if occupied and the new piece is not occupied
+                    //checks if the previous piece is occupied and the new piece is not occupied
                     else if (occupied[index] != null && occupied[newIndex] == null)
                     {
                         //checks if the previous piece corresponds to the playerturn colour
@@ -1082,6 +1163,10 @@ namespace WpfApp1
                     {
                         movedOnly = true;
                     }
+                    if (occupied[index].Colour.Equals(playerTurn[0]) && !occupied[newIndex].Colour.Equals(playerTurn[0]))
+                    {
+                        movedOnly = true;
+                    }
                 }
             }
 
@@ -1096,78 +1181,7 @@ namespace WpfApp1
                 //to store the possible movements that the chess piece can do
                 ArrayList movement = new ArrayList();
 
-                //to check which type of piece it is
-                switch (occupied[index].Name)
-                { 
-                    case "Knight":
-                        movement = KnightMovement((Knight)occupied[index]);
-                        if (occupied[index].Colour.Equals("black"))
-                        {
-                            imageId = 1;
-                        }
-                        else if (occupied[index].Colour.Equals("white"))
-                        {
-                            imageId = 57;
-                        }
-                        break;
-                    case "Pawn":
-                        movement = PawnMovement((Pawn)occupied[index]);
-                        if (occupied[index].Colour.Equals("black"))
-                        {
-                            imageId = 9;
-                        }
-                        else if (occupied[index].Colour.Equals("white"))
-                        {
-                            imageId = 54;
-                        }
-                        break;
-                    case "Rook": 
-                        movement = RookMovement((Rook)occupied[index]);
-                        if (occupied[index].Colour.Equals("black"))
-                        {
-                            imageId = 0;
-                        }
-                        else if (occupied[index].Colour.Equals("white"))
-                        {
-                            imageId = 56;
-                        }
-                        break;
-                    case "Bishop":
-                        movement = BishopMovement((Bishop)occupied[index]);
-                        if (occupied[index].Colour.Equals("black"))
-                        {
-                            imageId = 2;
-                        }
-                        else if (occupied[index].Colour.Equals("white"))
-                        {
-                            imageId = 58;
-                        }
-                        break;
-                    case "Queen":
-                        movement = QueenMovement((Queen)occupied[index]);
-                        if (occupied[index].Colour.Equals("black"))
-                        {
-                            imageId = 3;
-                        }
-                        else if (occupied[index].Colour.Equals("white"))
-                        {
-                            imageId = 59;
-                        }
-                        break;
-                    case "King":
-                        movement = KingMovement((King)occupied[index]);
-                        if (occupied[index].Colour.Equals("black"))
-                        {
-                            imageId = 4;
-                        }
-                        else if (occupied[index].Colour.Equals("white"))
-                        {
-                            imageId = 60;
-                        }
-                        break;
-                    default:
-                        break;
-                }
+                movement = checkPieces(index);
 
                 //adds the new possible positions to the newPositions arraylist
                 foreach(string move in movement)
@@ -1183,12 +1197,28 @@ namespace WpfApp1
                         //to highlight all the possible spaces that the piece can move to on the board
                         int column = (int)char.GetNumericValue(move[1]) - 1;
                         int row = AlphabetService.GetIndexFromCharacter(move[0].ToString()) - 1;
-                        string test = move;
                         Button button = (Button)chessBoard.Children.Cast<UIElement>().First(e => Grid.GetRow(e) == column && Grid.GetColumn(e) == row);
                         button.Background = new SolidColorBrush(Colors.Red);
                     }
                 }
                 previousPieceName[0] = name;
+
+                if (isKingDead())
+                {
+                    if (playerTurn[0].Equals("white"))
+                    {
+                        MessageBox.Show("Black wins!");
+                    }
+                    else
+                    {
+                        MessageBox.Show("White wins!");
+                    }
+
+                    InitializePieces();
+                    InitializeChessBoard();
+                    InitializeOccupied();
+                    playerTurn[0] = "white";
+                }
             }
 
         }
@@ -1202,6 +1232,85 @@ namespace WpfApp1
             return index_1 + (index_2 * 8);
         }
 
+        //to check what piece is in the relevant position in the occupied array
+        public ArrayList checkPieces(int index)
+        {
+            ArrayList movement = new ArrayList();
+            //to check which type of piece it is
+            switch (occupied[index].Name)
+            {
+                case "Knight":
+                    movement = KnightMovement((Knight)occupied[index]);
+                    if (occupied[index].Colour.Equals("black"))
+                    {
+                        imageId = 1;
+                    }
+                    else if (occupied[index].Colour.Equals("white"))
+                    {
+                        imageId = 57;
+                    }
+                    break;
+                case "Pawn":
+                    movement = PawnMovement((Pawn)occupied[index]);
+                    if (occupied[index].Colour.Equals("black"))
+                    {
+                        imageId = 9;
+                    }
+                    else if (occupied[index].Colour.Equals("white"))
+                    {
+                        imageId = 54;
+                    }
+                    break;
+                case "Rook":
+                    movement = RookMovement((Rook)occupied[index]);
+                    if (occupied[index].Colour.Equals("black"))
+                    {
+                        imageId = 0;
+                    }
+                    else if (occupied[index].Colour.Equals("white"))
+                    {
+                        imageId = 56;
+                    }
+                    break;
+                case "Bishop":
+                    movement = BishopMovement((Bishop)occupied[index]);
+                    if (occupied[index].Colour.Equals("black"))
+                    {
+                        imageId = 2;
+                    }
+                    else if (occupied[index].Colour.Equals("white"))
+                    {
+                        imageId = 58;
+                    }
+                    break;
+                case "Queen":
+                    movement = QueenMovement((Queen)occupied[index]);
+                    if (occupied[index].Colour.Equals("black"))
+                    {
+                        imageId = 3;
+                    }
+                    else if (occupied[index].Colour.Equals("white"))
+                    {
+                        imageId = 59;
+                    }
+                    break;
+                case "King":
+                    movement = KingMovement((King)occupied[index]);
+                    if (occupied[index].Colour.Equals("black"))
+                    {
+                        imageId = 4;
+                    }
+                    else if (occupied[index].Colour.Equals("white"))
+                    {
+                        imageId = 60;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            return movement;
+        }
+
         //initializes the occupied array
         public void InitializeOccupied()
         {
@@ -1213,6 +1322,11 @@ namespace WpfApp1
             occupied[5] = blackBishops[1];
             occupied[6] = blackKnights[1];
             occupied[7] = blackRooks[1];
+
+            for(int i = 16; i < 48; i++)
+            {
+                occupied[i] = null;
+            }
 
             for (int i = 8; i < 16; i++)
             {
@@ -1325,6 +1439,13 @@ namespace WpfApp1
 
                     occupied[index] = null;
 
+                    //Asserts the blocks that each colour can attack on
+                    //AssertWhiteAttackBlocks();
+                    //AssertBlackAttackBlocks();
+
+                    //IsWhiteKingSafe();
+                    //IsBlackKingSafe();
+
                     return true;
                 }
                 else
@@ -1358,6 +1479,13 @@ namespace WpfApp1
 
                 occupied[index] = null;
 
+                //Asserts the blocks that can each colour can attack on
+                //AssertWhiteAttackBlocks();
+                //AssertBlackAttackBlocks();
+
+                //IsWhiteKingSafe();
+                //IsBlackKingSafe();
+                
                 return false;
             }
             return false;
@@ -1374,6 +1502,254 @@ namespace WpfApp1
         {
             return (index - 9) == 7 ? false : (index - 9) == 15 ? false : (index - 9) == 23 ? false : (index - 9) == 31 ? false :
                 (index - 9) == 39 ? false : (index - 9) == 47 ? false : (index - 9) == 55 ? false : true;
+        }
+
+        //asserts the blocks that white could attack on
+        public void AssertWhiteAttackBlocks()
+        {
+            List<string> blocks = new List<string>();
+            List<string> tempBlocks = new List<string>();
+
+            int i = 0;
+
+            foreach(Piece piece in occupied)
+            {
+                if (piece == null) 
+                { 
+                    i++; 
+                    continue;
+                }
+                if (!occupied[i].Colour.Equals("white"))
+                {
+                    i++;
+                    continue;
+                }
+
+                tempBlocks = checkPieces(i).Cast<string>().ToList();
+                foreach(string block in tempBlocks)
+                {
+                    string test = piece.Name;
+                    blocks.Add(block);
+                }
+                i++;
+
+            }
+
+            blocks.Distinct().ToList();
+
+            ArrayList finalBlocks = new ArrayList(blocks);
+
+            foreach (string block in finalBlocks)
+            {
+                //to highlight all the possible spaces that the piece can move to on the board
+                int column = (int)char.GetNumericValue(block[1]) - 1;
+                int row = AlphabetService.GetIndexFromCharacter(block[0].ToString()) - 1;
+                Button button = (Button)chessBoard.Children.Cast<UIElement>().First(e => Grid.GetRow(e) == column && Grid.GetColumn(e) == row);
+                button.Background = new SolidColorBrush(Colors.DeepPink);
+            }
+
+            whiteAttackBlocks.Clear();
+            whiteAttackBlocks = finalBlocks;
+        }
+
+        //asserts the blocks that black can attack on
+        public void AssertBlackAttackBlocks()
+        {
+            List<string> blocks = new List<string>();
+            List<string> tempBlocks = new List<string>();
+
+            int i = 0;
+
+            foreach (Piece piece in occupied)
+            {
+                if (piece == null)
+                {
+                    i++;
+                    continue;
+                }
+                if (!occupied[i].Colour.Equals("black"))
+                {
+                    i++;
+                    continue;
+                }
+
+                tempBlocks = checkPieces(i).Cast<string>().ToList();
+                foreach (string block in tempBlocks)
+                {
+                    string test = piece.Name;
+                    blocks.Add(block);
+                }
+                i++;
+
+            }
+
+            blocks.Distinct().ToList();
+
+            ArrayList finalBlocks = new ArrayList(blocks);
+
+            foreach (string block in finalBlocks)
+            {
+                //to highlight all the possible spaces that the piece can move to on the board
+                int column = (int)char.GetNumericValue(block[1]) - 1;
+                int row = AlphabetService.GetIndexFromCharacter(block[0].ToString()) - 1;
+                Button button = (Button)chessBoard.Children.Cast<UIElement>().First(e => Grid.GetRow(e) == column && Grid.GetColumn(e) == row);
+                button.Background = new SolidColorBrush(Colors.Purple);
+            }
+
+            blackAttackBlocks.Clear();
+            blackAttackBlocks = finalBlocks;
+        }
+
+        //checks if the black king is safe
+        public void IsBlackKingSafe()
+        {
+            //checks if the king is in one of the blocks that the other colour could potentially attack on
+            foreach (string position in whiteAttackBlocks)
+            {
+                //runs the code if the king is in one of the positions that the other colour could potentially attack on
+                if (position.Equals(blackKing.Position))
+                {
+                    Check("black");
+                }
+            }
+        }
+
+        //checks if the white king is safe
+        public void IsWhiteKingSafe()
+        {
+            //checks if the king is in one of the blocks that the other colour could potentially attack on
+            foreach (string position in blackAttackBlocks)
+            {
+                //runs the code if the king is in one of the positions that the other colour could potentially attack on
+                if (position.Equals(whiteKing.Position))
+                {
+                    Check("white");
+                }
+            }
+        }
+
+        public void Check(string colour)
+        {
+            //to store the blocks
+            List<string> blocks = new List<string>();
+            List<string> tempBlocks = new List<string>();
+
+            //to iterate over the elements in the array
+            int i = 0;
+
+            //iterates over the elements in the occupied array
+            foreach (Piece piece in occupied)
+            {
+                //checks if the element is initialized or not
+                if (piece == null)
+                {
+                    i++;
+                    continue;
+                }
+                //checks if the piece at the element in the array matches the colour of the king or not
+                if (!occupied[i].Colour.Equals(colour))
+                {
+                    i++;
+                    continue;
+                }
+
+                tempBlocks = checkPieces(i).Cast<string>().ToList();
+                foreach (string block in tempBlocks)
+                {
+                    blocks.Add(block);
+                }
+                i++;
+
+            }
+
+            blocks.Distinct().ToList();
+        }
+
+        public bool isPawnFarRight(int index)
+        {
+            return index == 7? true: index == 15? true: index == 23? true: index == 31? true: index == 39 ? true : 
+                index == 47 ? true : index == 55 ? true : index == 63 ? true : false;
+        }
+
+        public bool isOnlyCheck(List<string> blocks, int index)
+        {
+            //to store the initial position of the piece
+            string initialPosition = occupied[index].Position;
+
+            //iterates over every possible move the current piece could make to get the king out of check
+            foreach (string block in blocks)
+            {
+                //temporarily changes the position that the current piece is on
+                occupied[index].Position = block;
+                //asserts the blocks that both the colours could attack on
+                AssertBlackAttackBlocks();
+                AssertWhiteAttackBlocks();
+
+                //stores how many pieces can attack the king
+                int amountOfChecks = 0;
+
+
+                if (occupied[index].Colour.Equals("white"))
+                {
+                    foreach (string position in blackAttackBlocks)
+                    {
+                        if (!position.Equals(whiteKing.Position))
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            amountOfChecks++;
+                            break;
+                        }
+                    }
+                }
+                else if (occupied[index].Colour.Equals("black"))
+                {
+                    foreach (string position in whiteAttackBlocks)
+                    {
+                        if (!position.Equals(blackKing.Position))
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            amountOfChecks++;
+                            break;
+                        }
+                    }
+                }
+                if (amountOfChecks > 0)
+                {
+                    continue;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            return false;
+        }
+
+        public bool isKingDead()
+        {
+            int j = 0;
+            for(int i = 0; i < 64; i++)
+            {
+                if (occupied[i] != null)
+                {
+                    if (occupied[i].Name.Equals(blackKing.Name) || occupied[i].Name.Equals(whiteKing.Name))
+                    {
+                        j++;
+                    }
+                }                
+            }
+            if(j == 2)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

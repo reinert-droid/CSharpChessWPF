@@ -1,0 +1,41 @@
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\bin\Release\net7.0-windows\WpfApp1.exe
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\bin\Release\net7.0-windows\WpfApp1.deps.json
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\bin\Release\net7.0-windows\WpfApp1.runtimeconfig.json
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\bin\Release\net7.0-windows\WpfApp1.dll
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\bin\Release\net7.0-windows\WpfApp1.pdb
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\bin\Release\net7.0-windows\Alphabet.dll
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\obj\Release\net7.0-windows\WpfApp1.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\obj\Release\net7.0-windows\MainWindow.g.cs
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\obj\Release\net7.0-windows\App.g.cs
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\obj\Release\net7.0-windows\GeneratedInternalTypeHelper.g.cs
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\obj\Release\net7.0-windows\WpfApp1_MarkupCompile.cache
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\obj\Release\net7.0-windows\WpfApp1_MarkupCompile.lref
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\obj\Release\net7.0-windows\MainWindow.baml
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\obj\Release\net7.0-windows\WpfApp1.g.resources
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\obj\Release\net7.0-windows\WpfApp1.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\obj\Release\net7.0-windows\WpfApp1.AssemblyInfoInputs.cache
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\obj\Release\net7.0-windows\WpfApp1.AssemblyInfo.cs
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\obj\Release\net7.0-windows\WpfApp1.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\obj\Release\net7.0-windows\WpfApp1.csproj.CopyComplete
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\obj\Release\net7.0-windows\WpfApp1.dll
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\obj\Release\net7.0-windows\refint\WpfApp1.dll
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\obj\Release\net7.0-windows\WpfApp1.pdb
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\obj\Release\net7.0-windows\WpfApp1.genruntimeconfig.cache
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\obj\Release\net7.0-windows\ref\WpfApp1.dll
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\obj\Release\net7.0-windows\WpfApp1_Content.g.cs
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\bin\Release\net7.0-windows\Assets\b_pawn.png
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\bin\Release\net7.0-windows\Assets\b_bishop.png
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\bin\Release\net7.0-windows\Assets\b_king.png
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\bin\Release\net7.0-windows\Assets\b_knight.png
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\bin\Release\net7.0-windows\Assets\b_queen.png
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\bin\Release\net7.0-windows\Assets\b_rook.png
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\bin\Release\net7.0-windows\Assets\square brown dark_png_shadow_1024px.png
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\bin\Release\net7.0-windows\Assets\square brown light_png_shadow_1024px.png
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\bin\Release\net7.0-windows\Assets\square gray dark _png_shadow_1024px.png
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\bin\Release\net7.0-windows\Assets\square gray light _png_shadow_1024px.png
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\bin\Release\net7.0-windows\Assets\w_bishop.png
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\bin\Release\net7.0-windows\Assets\w_king.png
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\bin\Release\net7.0-windows\Assets\w_knight.png
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\bin\Release\net7.0-windows\Assets\w_pawn.png
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\bin\Release\net7.0-windows\Assets\w_queen.png
+C:\Users\Admin\source\repos\WpfApp1\WpfApp1\bin\Release\net7.0-windows\Assets\w_rook.png
