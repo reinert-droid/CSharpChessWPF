@@ -14,7 +14,7 @@ To play Chess, follow these steps:
 - Highlights the squares that a piece can move to.
 - Local 2 player.
 
-![ChessMaster Screenshot](link-to-screenshot.png)
+![ChessMaster Screenshot](https://github.com/reinert-droid/CSharpChessWPF/blob/main/ChessGameScreenshot.png)
 
 ## Technology Stack
 - WPF v6.0.2
