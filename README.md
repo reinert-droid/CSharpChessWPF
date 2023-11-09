@@ -49,8 +49,5 @@ To play Chess, follow these steps:
 ## Acknowledgments
 - reinert-droid
 
-## License
-This project is licensed under the [License Name] - see the [LICENSE](LICENSE) file for details.
-
 ---
 By Reinert
