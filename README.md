@@ -22,8 +22,8 @@ To play Chess, follow these steps:
 - .NET v7.0
 
 ## Project Structure
-- ChessGameBackend| WpfApp1/ |---MainWindow.xaml.cs |---King.cs |---Queen.cs |---Bishop.cs |---Knight.cs |---Rook.cs |---Pawn.cs
-- ChessGameFrontend| WpfApp1/ |---MainWindow.xaml
+- ChessGameBackend| WpfApp1/ |MainWindow.xaml.cs |King.cs |Queen.cs |Bishop.cs |Knight.cs |Rook.cs |Pawn.cs
+- ChessGameFrontend| WpfApp1/ |MainWindow.xaml
 
 ## Known Issues and Roadmap
 ### Known Issues
